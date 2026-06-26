@@ -614,7 +614,9 @@ Das bedeutet: Die Spielfigur bewegt sich gerade nach unten. Das passiert, wenn s
 
 Gehe in die Kategorie **Logik** und nimm den Vergleichsblock `||logic:0 = 0||`.
 
-Stelle ihn so ein:
+Ziehe diesen Vergleichsblock in das Feld, in dem vorher `wahr` stand. Halte ihn kurz über dem `wahr`-Feld, bis er einrastet.
+
+Stelle den Vergleich so ein:
 
 - ändere `=` zu `>`
 - links kommt `sprite vy` hinein
@@ -622,10 +624,14 @@ Stelle ihn so ein:
 
 Den Wert `sprite vy` findest du bei **Sprites** im Eigenschaftsblock. Wähle dort im Dropdown-Menü `vy (Geschwindigkeit y)` aus.
 
+In der Glühbirne siehst du den richtigen Block **im Overlap-Block**. Genau dort muss die Bedingung später stehen.
+
 ```blocks
-let sprite: Sprite = null
-if (sprite.vy > 0) {
-}
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    if (sprite.vy > 0) {
+    } else {
+    }
+})
 ```
 
 ## Schritt 34: Zweite Bedingung bauen: Figur ist über dem Gegner
@@ -648,11 +654,14 @@ Für `otherSprite oben + 8` brauchst du einen Plus-Block aus **Mathematik**. In 
 
 Merke dir: In diesem Overlap ist `sprite` deine Spielfigur und `otherSprite` der Gegner.
 
+In der Glühbirne siehst du auch diese Bedingung wieder **im Overlap-Block**, nicht als einzelnen neuen Block auf der Arbeitsfläche.
+
 ```blocks
-let sprite: Sprite = null
-let otherSprite: Sprite = null
-if (sprite.bottom < otherSprite.top + 8) {
-}
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    if (sprite.bottom < otherSprite.top + 8) {
+    } else {
+    }
+})
 ```
 
 ## Schritt 35: Beide Bedingungen mit UND verbinden
@@ -1326,8 +1335,27 @@ game.onUpdate(function () {
 })
 ```
 
+## Schritt 60: Alles testen
 
-## Schritt 60: Fertig! @showdialog
+Starte dein Spiel und teste in dieser Reihenfolge:
+
+- Hintergrund ist sichtbar.
+- Spielfigur erscheint.
+- Spielfigur läuft mit links und rechts.
+- Boden ist fest und die Figur fällt nicht hindurch.
+- Spielfigur springt mit **A**.
+- Kamera folgt der Figur.
+- Spielfigur schießt mit **B**.
+- Gegner erscheinen und laufen.
+- Gegner können mit Schuss besiegt werden.
+- Gegner können von oben besiegt werden.
+- Berührung von der Seite kostet Leben.
+- Münzen geben Punkte.
+- Herzen geben Leben zurück.
+- Die Flagge beendet das Spiel mit Gewinn.
+- Wenn die Figur herunterfällt, ist das Spiel verloren.
+
+## Schritt 61: Fertig! @showdialog
 
 Super gemacht! 🎮
 
