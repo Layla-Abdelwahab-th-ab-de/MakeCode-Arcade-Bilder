@@ -6,7 +6,7 @@ Willkommen! 🎮
 
 In diesem Tutorial baust du ein eigenes Jump'n'Run-Spiel in Microsoft MakeCode Arcade. Du malst eine Spielfigur, baust zuerst einen einfachen Boden, lässt die Figur laufen, springen und schießen und ergänzt danach Gegner, Münzen, Herzen, eine Flagge und eine einfache Animation.
 
-Wichtig für die Glühbirne: Die Bilder und Block-Beispiele in der Hilfe zeigen dir, **welchen Block du suchen musst**. Du sollst nicht jedes Mal einen neuen `beim Start`-Block bauen. Wenn im Schritt steht, dass etwas in `beim Start` gehört, ziehst du den neuen Block **unten in den vorhandenen `beim Start`-Block**.
+Wichtig für die Glühbirne: Die Bilder und Block-Beispiele in der Hilfe zeigen dir, **welchen Block du suchen musst**. Der grüne Rahmen `beim Start` kann in der Hilfe automatisch mit angezeigt werden. Das bedeutet **nicht**, dass du jedes Mal einen neuen `beim Start`-Block bauen sollst. Wenn im Schritt steht, dass etwas in `beim Start` gehört, ziehst du den neuen Block **unten in den vorhandenen `beim Start`-Block**.
 
 Klicke auf **Weiter**, um zu starten.
 
@@ -16,11 +16,10 @@ Gehe links in die Kategorie **Szene**. Ziehe den Block `||scene:setze Hintergrun
 
 Wähle eine helle Farbe, zum Beispiel Blau. So sieht dein Spiel direkt nach einer Welt aus und nicht wie eine leere Fläche.
 
-~hint
 Erstelle keinen neuen `beim Start`-Block. Ziehe den Hintergrund-Block in den vorhandenen `beim Start`-Block.
-hint~
 
 ```blocks
+// @highlight
 scene.setBackgroundColor(9)
 ```
 
@@ -30,15 +29,14 @@ Gehe in die Kategorie **Sprites**. Ziehe den Block `||variables:setze mySprite a
 
 Klicke auf das kleine Bild im Block. Jetzt öffnet sich der Mal-Editor. Du kannst deine Spielfigur selbst malen oder über **Galerie** eine Figur auswählen.
 
-~hint
 So kann deine Spielfigur aussehen. Du kannst sie nachmalen oder komplett anders gestalten.
 
 ![Vorschlag Spielfigur](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/sprite.png)
 
 Achte darauf, dass die Figur ungefähr 16 x 16 Pixel groß bleibt. Dann passt sie gut in die Tilemap.
-hint~
 
 ```blocks
+// @highlight
 let mySprite = sprites.create(img`
     . . . . . . . . . . . . . . . .
     . . . . . . . . . . . . . . . .
@@ -72,14 +70,13 @@ Stelle ein:
 
 `vx` ist die Geschwindigkeit nach links und rechts. `vy = 0` bedeutet: Die Figur soll nicht mit den Pfeiltasten nach oben und unten fliegen. Springen bauen wir später selbst.
 
-~hint
 Der Bewegungsblock gehört in den vorhandenen `beim Start`-Block, direkt unter die Spielfigur.
 
 Klicke auf das **Plus-Zeichen**, damit du `vx` und `vy` einstellen kannst.
-hint~
 
 ```blocks
 let mySprite: Sprite = null
+// @highlight
 controller.moveSprite(mySprite, 100, 0)
 ```
 
@@ -92,6 +89,7 @@ Klicke auf das kleine Kachelbild im Block. Dadurch öffnet sich der **Tilemap-Ed
 Eine Tilemap ist deine Spielwelt aus kleinen Quadraten. Diese Quadrate heißen **Kacheln**. Aus den Kacheln baust du Boden, Plattformen und später dein Level.
 
 ```blocks
+// @highlight
 tiles.setCurrentTilemap(tilemap`Level1`)
 ```
 
@@ -106,13 +104,11 @@ Stelle ein:
 
 So wird dein Level breiter als der Bildschirm. Später folgt die Kamera deiner Spielfigur.
 
-~hint
 Hier siehst du, wo du Breite und Höhe findest:
 
 ![Hinweis Breite Höhe Tilemap einstellen](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/tilemap_breite_hoehe.png)
 
 Die Zahl links ist die Breite. Die Zahl rechts ist die Höhe.
-hint~
 
 ## Schritt 6: Erstmal nur den Boden malen
 
@@ -120,13 +116,11 @@ Male jetzt noch keine komplizierte Welt. Für den Anfang reicht ein einfacher Bo
 
 Wähle eine Boden-Kachel aus dem Bereich **Forest**. Male unten eine durchgehende Bodenfläche. Du kannst erstmal nur den unteren Bereich füllen.
 
-~hint
 Hier siehst du passende Boden-Kacheln. Nimm für den Anfang eine gut erkennbare Gras- oder Erdkachel.
 
 ![Vorschlag Boden Kacheln](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/tilemap_boden_kacheln.png)
 
 Wichtig: Du musst noch keine vollständige Welt malen. Erstmal reicht ein einfacher Boden.
-hint~
 
 ## Schritt 7: Boden direkt als Wand markieren
 
@@ -134,7 +128,6 @@ Der Boden sieht jetzt zwar aus wie Boden, aber die Spielfigur kann noch hindurch
 
 Aktiviere im Tilemap-Editor zuerst **Wände anzeigen**. Danach wählst du das **Wand-Werkzeug** und markierst die Boden-Kacheln als Wand.
 
-~hint
 Aktiviere zuerst **Wände anzeigen**:
 
 ![Funktion Wände anzeigen](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/waende_anzeigen.png)
@@ -144,7 +137,6 @@ Dann wählst du das Wand-Werkzeug:
 ![Hinweis Wände Zeichnen Tool](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/waende_zeichnen_tool.png)
 
 Eine Kachel mit Wand ist fest. Die Spielfigur kann nicht hindurchfallen.
-hint~
 
 Wenn du fertig bist, schließe den Tilemap-Editor mit **Fertig**.
 
@@ -158,16 +150,15 @@ Wähle im Dropdown-Menü **ay (Beschleunigung y)** aus und stelle den Wert auf `
 
 `ay` ist die Beschleunigung nach unten. Dadurch fällt die Figur wie in einem Jump'n'Run-Spiel.
 
-~hint
 Wichtig: Du musst im Dropdown-Menü wirklich **ay / Beschleunigung y** auswählen. Nicht `y`, nicht `vy`.
 
 - `y` ist die Position.
 - `vy` ist die aktuelle Geschwindigkeit nach oben oder unten.
 - `ay` ist die Schwerkraft/Beschleunigung.
-hint~
 
 ```blocks
 let mySprite: Sprite = null
+// @highlight
 mySprite.ay = 350
 ```
 
@@ -184,6 +175,7 @@ Stelle ein:
 
 ```blocks
 let mySprite: Sprite = null
+// @highlight
 mySprite.setPosition(20, 100)
 ```
 
@@ -268,7 +260,9 @@ Gehe in die Kategorie **Info**. Ziehe zwei Blöcke in `||loops:beim Start||`:
 So startet das Spiel mit 3 Leben und 0 Punkten.
 
 ```blocks
+// @highlight
 info.setLife(3)
+// @highlight
 info.setScore(0)
 ```
 
@@ -294,11 +288,9 @@ Klicke auf das Bild und male ein kleines Feuer-Projektil. Stelle ein:
 
 Danach spiele einen Ton ab.
 
-~hint
 So kann dein Projektil aussehen: klein, schnell und gut sichtbar.
 
 Du kannst ein eigenes Projektil malen. Wichtig ist nur: Es sollte nicht zu groß sein.
-hint~
 
 ```blocks
 let mySprite: Sprite = null
@@ -346,7 +338,6 @@ Standard für den Workshop: Male erstmal **1 bis 2 Plattformen** über dem Boden
 
 Wer schneller ist, darf die vollständige Welt nach der Vorlage malen.
 
-~hint
 So kann die vollständige Tilemap ohne Wandanzeige aussehen:
 
 ![Vorschlag vollständige Tilemap](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/tilemap_vollstaendig.png)
@@ -356,7 +347,6 @@ So sieht dieselbe Tilemap aus, wenn Wände angezeigt werden:
 ![Vorschlag vollständige Tilemap mit Wänden](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/tilemap_vollstaendig_mit_waenden.png)
 
 Für den Anfang musst du nicht alles nachbauen. 1 bis 2 Plattformen reichen.
-hint~
 
 Teste danach wieder kurz, ob die Figur auf den Plattformen stehen kann. Wenn sie durchfällt, fehlt die Wand-Markierung.
 
@@ -393,13 +383,11 @@ Male einen Gegner. Danach stellst du ein:
 - `vx = 30`
 - `pralle gegen Wand = EIN`
 
-~hint
 So kann dein Gegner aussehen:
 
 ![Vorschlag Enemy](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/enemy.png)
 
 Der Gegner bekommt auch Schwerkraft und läuft automatisch nach links und rechts.
-hint~
 
 ```blocks
 let e: Sprite = null
@@ -442,7 +430,6 @@ Setze für den ersten Test:
 platziereGegner(128, 96)
 ```
 
-~hint
 Wenn du später mehrere Gegner möchtest, ziehst du denselben Funktionsaufruf mehrmals untereinander in `beim Start` und änderst nur die Positionen.
 
 Für die vollständige Version kannst du diese Positionen nutzen:
@@ -452,7 +439,6 @@ platziereGegner(128, 96)
 platziereGegner(400, 96)
 platziereGegner(656, 96)
 ```
-hint~
 
 Teste kurz, ob der Gegner erscheint und auf dem Boden läuft.
 
@@ -544,11 +530,9 @@ Parameter:
 
 In dieser Funktion erstellen wir eine Münze, setzen sie an die Position `x`, `y` und schalten **Geist durch Wände** ein. Dadurch bleibt die Münze dort, wo wir sie platzieren.
 
-~hint
 So kann deine Münze aussehen:
 
 ![Vorschlag Münze](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/muenze.png)
-hint~
 
 ```blocks
 let coin: Sprite = null
@@ -595,7 +579,6 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Coin, function (sprite, otherSpr
 })
 ```
 
-~hint
 Du musst Münzen nicht jedes Mal neu programmieren.
 
 Wenn du mehr Münzen möchtest, ziehst du den Block `Aufruf platziereMuenze` mehrmals untereinander in `beim Start` und trägst verschiedene Positionen ein.
@@ -614,7 +597,6 @@ platziereMuenze(544, 64)
 platziereMuenze(640, 96)
 platziereMuenze(672, 96)
 ```
-hint~
 
 ## Schritt 28: Herzen vorbereiten
 
@@ -643,11 +625,9 @@ Parameter:
 - `x` als Zahl
 - `y` als Zahl
 
-~hint
 So kann dein Herz aussehen:
 
 ![Vorschlag Herz](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/herz.png)
-hint~
 
 ```blocks
 let heart: Sprite = null
@@ -696,7 +676,6 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite, otherSp
 })
 ```
 
-~hint
 Wenn du mehr Herzen möchtest, ziehst du `Aufruf platziereHerz` mehrmals untereinander in `beim Start` und gibst verschiedene Positionen ein.
 
 Für die vollständige Version kannst du später diese Positionen nutzen:
@@ -706,7 +685,6 @@ platziereHerz(256, 80)
 platziereHerz(528, 64)
 platziereHerz(656, 96)
 ```
-hint~
 
 ## Schritt 31: Ziel-Flagge vorbereiten
 
@@ -734,11 +712,9 @@ Stelle ein:
 - `y = 80`
 - `Geist durch Wände = EIN`
 
-~hint
 So kann deine Flagge aussehen:
 
 ![Vorschlag Flagge](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/flagge.png)
-hint~
 
 ```blocks
 let flag = sprites.create(img`
@@ -795,7 +771,6 @@ Erstelle drei Variablen:
 
 Diese drei Bilder kommen in den vorhandenen `beim Start`-Block. `frame1` und `frame2` sind Laufbilder. `frame3` ist das Stand- und Sprungbild.
 
-~hint
 So können die drei Bilder aussehen:
 
 ![Vorschlag Frame1](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/frame1.png)
@@ -805,7 +780,6 @@ So können die drei Bilder aussehen:
 ![Vorschlag Frame3](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/frame3.png)
 
 Male die Bilder ähnlich wie deine Spielfigur. Bei `frame1` und `frame2` änderst du nur die Beine etwas.
-hint~
 
 ```blocks
 let frame1 = img`
