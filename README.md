@@ -193,15 +193,29 @@ tiles.setCurrentTilemap(tilemap`Level1`)
 
 ## Schritt 12: Schwerkraft einschalten
 
-Jetzt soll die Figur nach unten fallen und auf dem Boden stehen bleiben.
+Jetzt soll die Figur nach unten fallen und auf dem Boden stehen bleiben. Dafür bekommt sie eine **Beschleunigung nach unten**.
 
-Gehe in die Kategorie **Sprites**. Suche den Block, mit dem du eine Eigenschaft eines Sprites setzt.
+Gehe links in die Kategorie **Sprites**. Suche dort den Block, der ungefähr so aussieht:
 
-Wichtig: Öffne im Block zuerst das **Dropdown-Menü** und wähle `ay (Beschleunigung y)` aus. Stelle danach den Wert auf `350`.
+`setze mySprite x auf 0`
 
-`ay` ist die Beschleunigung nach unten. In unserem Spiel ist das die Schwerkraft.
+Der Block kann am Anfang auch eine andere Eigenschaft anzeigen, zum Beispiel `x`, `y`, `vx`, `vy` oder `Bild`. Das ist richtig, denn diese Eigenschaft kann man über ein Dropdown-Menü ändern.
 
-Achte genau darauf: Nicht `y`, nicht `vy`, sondern `ay`.
+Ziehe diesen Block in den vorhandenen `||loops:beim Start||`-Block, unter deine bisherigen Start-Blöcke. Erstelle keinen neuen `||loops:beim Start||`-Block.
+
+Klicke im Block auf das Dropdown-Menü mit der Eigenschaft. Wähle dort:
+
+`ay (Beschleunigung y)`
+
+Stelle danach den Zahlenwert auf:
+
+`350`
+
+Dann sieht der Block so aus:
+
+`setze mySprite ay (Beschleunigung y) auf 350`
+
+`ay` ist die Schwerkraft in unserem Spiel. Eine positive Zahl zieht die Figur nach unten. Achte genau darauf: Nicht `y`, nicht `vy`, sondern `ay`.
 
 ```blocks
 let mySprite: Sprite = null
