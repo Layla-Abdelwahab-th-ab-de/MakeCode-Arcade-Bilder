@@ -570,188 +570,36 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, oth
 })
 ```
 
-## Schritt 31: Berührung mit Gegner erkennen
+## Schritt 31: Gegner berühren kostet ein Leben
 
-Jetzt soll auch etwas passieren, wenn deine Spielfigur einen Gegner berührt.
+Jetzt soll die Spielfigur ein Leben verlieren, wenn sie einen Gegner berührt.
 
-Gehe in die Kategorie **Sprites**. Ziehe wieder einen Block `||sprites:wenn Sprite der Art Player überlappt otherSprite der Art Player||` frei auf die Arbeitsfläche.
+Gehe in die Kategorie **Sprites**. Ziehe wieder den Block `||sprites:wenn Sprite der Art Player überlappt otherSprite der Art Player||` frei auf die Arbeitsfläche.
 
-Ersetze die Player-Arten wie folgt ein:
+Dieser Block kommt **nicht** in `||loops:beim Start||`. Er ist ein eigener Ereignis-Block.
 
-- links, Dropdownmenü auswählen: bleibt `Player`
-- rechts, Dropdownmenü auswählen: `Enemy`
+Stelle oben ein:
 
-Dieser Block bedeutet: **Wenn die Spielfigur einen Gegner berührt, dann passiert etwas.**
+- links: `Player`
+- rechts: `Enemy`
 
-```blocks
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-})
-```
-
-## Schritt 32: Wenn-dann-ansonsten-Block einsetzen
-
-Jetzt wird geprüft, **wie** deine Spielfigur den Gegner berührt.
-
-Gehe in die Kategorie **Logik**. Ziehe den Block `||logic:wenn dann ansonsten||` in den Overlap-Block aus Schritt 31.
-
-Wichtig: Im Block steht am Anfang oft `wahr`. Das ist nur ein Platzhalter. In den nächsten Schritten ersetzt du `wahr` durch eine richtige Bedingung.
-
-```blocks
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    if (true) {
-    } else {
-    }
-})
-```
-
-## Schritt 33: Erste Bedingung bauen: Figur fällt nach unten
-
-Die erste Bedingung lautet:
-
-`sprite vy > 0`
-
-Das bedeutet: Die Spielfigur bewegt sich gerade nach unten. Das passiert, wenn sie fällt oder auf den Gegner springt.
-
-Gehe in die Kategorie **Logik** und nimm den Vergleichsblock `||logic:0 = 0||`.
-
-Ziehe diesen Vergleichsblock in das Feld, in dem vorher `wahr` stand. Halte ihn kurz über dem `wahr`-Feld, bis er einrastet.
-
-Stelle den Vergleich so ein:
-
-- ändere `=` zu `>`
-- links kommt `sprite vy` hinein
-- rechts bleibt `0`
-
-Den Wert `sprite vy` findest du bei **Sprites** im Eigenschaftsblock. Wähle dort im Dropdown-Menü `vy (Geschwindigkeit y)` aus.
-
-In der Glühbirne siehst du den richtigen Block **im Overlap-Block**. Genau dort muss die Bedingung später stehen.
-
-```blocks
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    if (sprite.vy > 0) {
-    } else {
-    }
-})
-```
-
-## Schritt 34: Zweite Bedingung bauen: Figur ist über dem Gegner
-
-Die zweite Bedingung lautet:
-
-`sprite unten < otherSprite oben + 8`
-
-Das bedeutet: Die Spielfigur ist noch knapp über dem Gegner. Dadurch erkennt das Spiel, dass sie von oben kommt.
-
-Baue dafür wieder einen Vergleichsblock aus **Logik**.
-
-Stelle ihn so ein:
-
-- ändere den Vergleich auf `<`
-- links kommt `sprite unten` hinein
-- rechts kommt `otherSprite oben + 8` hinein
-
-Für `otherSprite oben + 8` brauchst du einen Plus-Block aus **Mathematik**. In den Plus-Block kommt links `otherSprite oben` und rechts die Zahl `8`.
-
-Merke dir: In diesem Overlap ist `sprite` deine Spielfigur und `otherSprite` der Gegner.
-
-In der Glühbirne siehst du auch diese Bedingung wieder **im Overlap-Block**, nicht als einzelnen neuen Block auf der Arbeitsfläche.
-
-```blocks
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    if (sprite.bottom < otherSprite.top + 8) {
-    } else {
-    }
-})
-```
-
-## Schritt 35: Beide Bedingungen mit UND verbinden
-
-Jetzt müssen beide Bedingungen gleichzeitig stimmen:
-
-- Die Spielfigur fällt nach unten.
-- Die Spielfigur ist knapp über dem Gegner.
-
-Gehe in die Kategorie **Logik** und nimm den Block `||logic:und||`.
-
-Ziehe den `und`-Block direkt in das Feld, in dem vorher `wahr` stand. Halte ihn kurz über dem `wahr`-Feld, bis er einrastet.
-
-Danach ziehst du die beiden Vergleichsblöcke in den `und`-Block:
-
-- links: `sprite vy > 0`
-- rechts: `sprite unten < otherSprite oben + 8`
-
-Jetzt lautet die ganze Bedingung:
-
-`sprite vy > 0 und sprite unten < otherSprite oben + 8`
-
-```blocks
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    if (sprite.vy > 0 && sprite.bottom < otherSprite.top + 8) {
-    } else {
-    }
-})
-```
-
-## Schritt 36: Gegner von oben besiegen
-
-Jetzt füllen wir den **wenn**-Teil.
-
-Wenn die Bedingung stimmt, kommt die Spielfigur von oben. Dann soll der Gegner verschwinden, die Spielfigur leicht nach oben zurückspringen und die Punktzahl steigen.
-
-Füge in den **wenn**-Teil ein:
-
-- `||sprites:zerstöre otherSprite mit Lächeln Effekt für 300 ms||`
-- `||sprites:setze sprite vy auf -120||`
-- `||info:ändere Punktzahl um 2||`
-- einen Ton, zum Beispiel `zapped`
-
-```blocks
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    if (sprite.vy > 0 && sprite.bottom < otherSprite.top + 8) {
-        otherSprite.destroy(effects.smiles, 300)
-        sprite.vy = -120
-        info.changeScoreBy(2)
-        music.zapped.play()
-    } else {
-    }
-})
-```
-
-## Schritt 37: Seitliche Berührung kostet ein Leben
-
-Jetzt füllen wir den **ansonsten**-Teil.
-
-Der **ansonsten**-Teil passiert, wenn die Spielfigur den Gegner nicht von oben trifft. Dann war es eine Berührung von der Seite.
-
-Füge in den **ansonsten**-Teil ein:
+Füge in den Block diese Dinge ein:
 
 - `||sprites:starte Feuer Effekt an sprite für 500 ms||`
 - `||info:ändere Leben um -1||`
-- `||sprites:setze sprite vx auf -80||`
-- `||loops:pausiere 300 ms||`
-- danach `||sprites:setze sprite vx auf mySprite vx||`
+- `||loops:pausiere 500 ms||`
 
-Damit verliert die Spielfigur ein Leben und wird kurz zurückgestoßen.
+Damit verliert deine Spielfigur ein Leben, wenn sie einen Gegner berührt.
 
 ```blocks
-let mySprite: Sprite = null
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    if (sprite.vy > 0 && sprite.bottom < otherSprite.top + 8) {
-        otherSprite.destroy(effects.smiles, 300)
-        sprite.vy = -120
-        info.changeScoreBy(2)
-        music.zapped.play()
-    } else {
-        sprite.startEffect(effects.fire, 500)
-        info.changeLifeBy(-1)
-        sprite.vx = -80
-        pause(300)
-        sprite.vx = mySprite.vx
-    }
+    sprite.startEffect(effects.fire, 500)
+    info.changeLifeBy(-1)
+    pause(500)
 })
 ```
 
-## Schritt 38: Testen: Gegner
+## Schritt 32: Testen: Gegner
 
 Starte das Spiel und teste den Gegner.
 
@@ -760,12 +608,11 @@ Prüfe:
 - Läuft der Gegner auf dem Boden?
 - Prallt er an Wänden oder Plattformen ab?
 - Kannst du ihn mit **B** abschießen?
-- Kannst du ihn von oben besiegen?
-- Verlierst du ein Leben, wenn du ihn von der Seite berührst?
+- Verlierst du ein Leben, wenn du ihn berührst?
 
 Wenn der Gegner herunterfällt, fehlt unter ihm Boden oder die Plattform ist nicht als Wand markiert.
 
-## Schritt 39: Funktion für Münzen erstellen
+## Schritt 33: Funktion für Münzen erstellen
 
 Jetzt bauen wir einen Helfer-Block für Münzen.
 
@@ -787,7 +634,7 @@ function platziereMuenze (x: number, y: number) {
 }
 ```
 
-## Schritt 40: Münze malen und einstellen
+## Schritt 34: Münze malen und einstellen
 
 Jetzt füllen wir die Funktion `platziereMuenze`.
 
@@ -837,7 +684,7 @@ function platziereMuenze (x: number, y: number) {
 }
 ```
 
-## Schritt 41: Münze einsammeln vorbereiten
+## Schritt 35: Münze einsammeln vorbereiten
 
 Jetzt soll MakeCode merken, wenn deine Spielfigur eine Münze berührt.
 
@@ -855,7 +702,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Coin, function (sprite, otherSpr
 })
 ```
 
-## Schritt 42: Münze einsammeln
+## Schritt 36: Münze einsammeln
 
 Jetzt füllen wir den Münz-Overlap.
 
@@ -875,7 +722,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Coin, function (sprite, otherSpr
 })
 ```
 
-## Schritt 43: Münzen platzieren
+## Schritt 37: Münzen platzieren
 
 Jetzt benutzt du deine Funktion.
 
@@ -904,7 +751,7 @@ platziereMuenze(640, 96)
 platziereMuenze(672, 96)
 ```
 
-## Schritt 44: Funktion für Herzen erstellen
+## Schritt 38: Funktion für Herzen erstellen
 
 Jetzt bauen wir einen Helfer-Block für Herzen.
 
@@ -926,7 +773,7 @@ function platziereHerz (x: number, y: number) {
 }
 ```
 
-## Schritt 45: Herz malen und einstellen
+## Schritt 39: Herz malen und einstellen
 
 Jetzt füllen wir die Funktion `platziereHerz`.
 
@@ -974,7 +821,7 @@ function platziereHerz (x: number, y: number) {
 }
 ```
 
-## Schritt 46: Herz einsammeln vorbereiten
+## Schritt 40: Herz einsammeln vorbereiten
 
 Jetzt soll MakeCode merken, wenn deine Spielfigur ein Herz berührt.
 
@@ -985,44 +832,20 @@ Stelle oben ein:
 - links: `Player`
 - rechts: `Heart`
 
+Der Block bedeutet: **Wenn die Spielfigur ein Herz berührt, dann passiert etwas.**
+
 ```blocks
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite, otherSprite) {
 })
 ```
 
-## Schritt 47: Herz-Bedingung einsetzen
+## Schritt 41: Herz gibt Leben zurück
 
-Jetzt fügen wir eine Bedingung ein: Ein Herz soll nur ein Leben geben, wenn deine Spielfigur weniger als 3 Leben hat.
+Jetzt füllen wir den Herz-Overlap.
 
-Gehe in die Kategorie **Logik** und ziehe den Block `||logic:wenn dann ansonsten||` in den Herz-Overlap.
+Für den Anfang machen wir es einfach: Wenn die Spielfigur ein Herz berührt, bekommt sie ein Leben zurück. Das Herz verschwindet danach.
 
-Im Bedingungsfeld steht am Anfang wieder `wahr`. Ziehe dort einen Vergleichsblock aus **Logik** hinein.
-
-Die Bedingung lautet:
-
-`Leben < 3`
-
-So baust du sie:
-
-- links kommt der Block `||info:Leben||` aus **Info** hinein
-- stelle den Vergleich auf `<`
-- rechts steht die Zahl `3`
-
-```blocks
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite, otherSprite) {
-    if (info.life() < 3) {
-    } else {
-    }
-})
-```
-
-## Schritt 48: Herz gibt Leben zurück
-
-Jetzt füllen wir den **wenn**-Teil.
-
-Wenn deine Spielfigur weniger als 3 Leben hat, soll das Herz verschwinden und ein Leben dazukommen.
-
-Füge in den **wenn**-Teil ein:
+Füge in den Overlap-Block ein:
 
 - `||sprites:zerstöre otherSprite mit Herzen Effekt für 200 ms||`
 - `||info:ändere Leben um 1||`
@@ -1030,38 +853,13 @@ Füge in den **wenn**-Teil ein:
 
 ```blocks
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite, otherSprite) {
-    if (info.life() < 3) {
-        otherSprite.destroy(effects.hearts, 200)
-        info.changeLifeBy(1)
-        music.powerUp.play()
-    } else {
-    }
+    otherSprite.destroy(effects.hearts, 200)
+    info.changeLifeBy(1)
+    music.powerUp.play()
 })
 ```
 
-## Schritt 49: Herz verschwindet bei vollen Leben
-
-Jetzt füllen wir den **ansonsten**-Teil.
-
-Wenn deine Spielfigur schon 3 Leben hat, soll das Herz trotzdem verschwinden. So kann man nicht unendlich viele Herzen sammeln.
-
-Füge in den **ansonsten**-Teil ein:
-
-- `||sprites:zerstöre otherSprite mit Herzen Effekt für 200 ms||`
-
-```blocks
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite, otherSprite) {
-    if (info.life() < 3) {
-        otherSprite.destroy(effects.hearts, 200)
-        info.changeLifeBy(1)
-        music.powerUp.play()
-    } else {
-        otherSprite.destroy(effects.hearts, 200)
-    }
-})
-```
-
-## Schritt 50: Herzen platzieren
+## Schritt 42: Herzen platzieren
 
 Jetzt benutzt du deine Funktion.
 
@@ -1083,7 +881,7 @@ platziereHerz(528, 64)
 platziereHerz(656, 96)
 ```
 
-## Schritt 51: Weitere Gegner platzieren
+## Schritt 43: Weitere Gegner platzieren
 
 Du kannst auch mehrere Gegner einbauen.
 
@@ -1097,7 +895,7 @@ platziereGegner(400, 96)
 platziereGegner(656, 96)
 ```
 
-## Schritt 52: Ziel-Flagge erstellen
+## Schritt 44: Ziel-Flagge erstellen
 
 Am Ende des Levels braucht dein Spiel ein Ziel.
 
@@ -1142,7 +940,7 @@ flag.setPosition(768, 80)
 flag.setFlag(SpriteFlag.GhostThroughWalls, true)
 ```
 
-## Schritt 53: Spiel gewinnen vorbereiten
+## Schritt 45: Spiel gewinnen
 
 Jetzt soll MakeCode merken, wenn deine Spielfigur die Flagge berührt.
 
@@ -1153,20 +951,7 @@ Stelle oben ein:
 - links: `Player`
 - rechts: `Flag`
 
-```blocks
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Flag, function (sprite, otherSprite) {
-})
-```
-
-## Schritt 54: Spiel gewinnen
-
-Füge in den Flaggen-Overlap diese Blöcke ein:
-
-- `||sprites:starte Konfetti Effekt an otherSprite für 1000 ms||`
-- Ton `Einschalten` oder `powerUp`
-- `||game:Spielende GEWINNEN||`
-
-Wenn die Spielfigur die Flagge berührt, ist das Spiel gewonnen.
+Wenn die Spielfigur die Flagge berührt, gibt es Konfetti, ein Ton wird abgespielt und das Spiel ist gewonnen.
 
 ```blocks
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Flag, function (sprite, otherSprite) {
@@ -1176,9 +961,90 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Flag, function (sprite, otherSpr
 })
 ```
 
-## Schritt 55: Laufbilder vorbereiten
+## Schritt 46: Spielupdate vorbereiten
 
-Jetzt bekommt die Spielfigur eine einfache Laufanimation.
+Gehe in die Kategorie **Spiel** und ziehe den Block `||game:wenn Spielupdate||` frei auf die Arbeitsfläche.
+
+Dieser Block wird immer wieder ausgeführt, solange das Spiel läuft. Deshalb eignet er sich für Dinge, die ständig geprüft werden müssen.
+
+```blocks
+game.onUpdate(function () {
+})
+```
+
+## Schritt 47: Herunterfallen bedeutet Game Over
+
+In den `||game:wenn Spielupdate||`-Block kommt diese Abfrage:
+
+Wenn die y-Position der Figur größer als `230` ist, ist sie aus dem Level gefallen. Dann ist das Spiel verloren.
+
+```blocks
+let mySprite: Sprite = null
+game.onUpdate(function () {
+    if (mySprite.y > 230) {
+        game.gameOver(false)
+    }
+})
+```
+
+## Schritt 48: Alles testen
+
+Starte dein Spiel und teste in dieser Reihenfolge:
+
+- Hintergrund ist sichtbar.
+- Spielfigur erscheint.
+- Spielfigur läuft mit links und rechts.
+- Boden ist fest und die Figur fällt nicht hindurch.
+- Spielfigur springt mit **A**.
+- Kamera folgt der Figur.
+- Spielfigur schießt mit **B**.
+- Gegner erscheinen und laufen.
+- Gegner können mit Schuss besiegt werden.
+- Berührung mit Gegner kostet Leben.
+- Münzen geben Punkte.
+- Herzen geben Leben zurück.
+- Die Flagge beendet das Spiel mit Gewinn.
+- Wenn die Figur herunterfällt, ist das Spiel verloren.
+
+## Optional: Nur für Profis – Gegner von oben besiegen
+
+Dieser Teil ist freiwillig. Baue ihn nur ein, wenn dein Spiel schon funktioniert.
+
+Mit diesem Profi-Teil kann deine Spielfigur Gegner auch durch Draufspringen besiegen. Dafür ersetzt du den einfachen Player-Enemy-Overlap aus Schritt 31.
+
+Öffne den Overlap-Block aus Schritt 31:
+
+`Player` überlappt `Enemy`
+
+Entferne die einfachen Blöcke darin und baue stattdessen eine `||logic:wenn dann ansonsten||`-Bedingung ein.
+
+Die Bedingung lautet:
+
+`sprite vy > 0` **und** `sprite unten < otherSprite oben + 8`
+
+Das bedeutet: Die Spielfigur fällt gerade nach unten und ist noch knapp über dem Gegner.
+
+```blocks
+let mySprite: Sprite = null
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    if (sprite.vy > 0 && sprite.bottom < otherSprite.top + 8) {
+        otherSprite.destroy(effects.smiles, 300)
+        sprite.vy = -120
+        info.changeScoreBy(2)
+        music.zapped.play()
+    } else {
+        sprite.startEffect(effects.fire, 500)
+        info.changeLifeBy(-1)
+        sprite.vx = -80
+        pause(300)
+        sprite.vx = mySprite.vx
+    }
+})
+```
+
+## Optional: Nur für Profis – Laufanimation vorbereiten
+
+Dieser Teil ist auch freiwillig. Die Spielfigur funktioniert schon ohne Animation.
 
 Erstelle drei Variablen:
 
@@ -1255,7 +1121,7 @@ let frame3 = img`
 `
 ```
 
-## Schritt 56: A-Sprungbild ergänzen
+## Optional: Nur für Profis – Sprungbild ergänzen
 
 Im A-Block kannst du zusätzlich das Bild auf `frame3` setzen.
 
@@ -1276,35 +1142,9 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 ```
 
-## Schritt 57: Spielupdate vorbereiten
+## Optional: Nur für Profis – Laufanimation ins Spielupdate einbauen
 
-Gehe in die Kategorie **Spiel** und ziehe den Block `||game:wenn Spielupdate||` frei auf die Arbeitsfläche.
-
-Dieser Block wird immer wieder ausgeführt, solange das Spiel läuft. Deshalb eignet er sich für Dinge, die ständig geprüft werden müssen.
-
-```blocks
-game.onUpdate(function () {
-})
-```
-
-## Schritt 58: Herunterfallen bedeutet Game Over
-
-In den `||game:wenn Spielupdate||`-Block kommt zuerst diese Abfrage:
-
-Wenn die y-Position der Figur größer als `230` ist, ist sie aus dem Level gefallen. Dann ist das Spiel verloren.
-
-```blocks
-let mySprite: Sprite = null
-game.onUpdate(function () {
-    if (mySprite.y > 230) {
-        game.gameOver(false)
-    }
-})
-```
-
-## Schritt 59: Laufanimation nach rechts und links
-
-Jetzt ergänzen wir im selben `||game:wenn Spielupdate||`-Block die Laufanimation.
+Wenn du die Laufanimation einbaust, ergänzt du den vorhandenen `||game:wenn Spielupdate||`-Block aus Schritt 47.
 
 Wenn `vx > 10` ist, läuft die Figur nach rechts. Wenn `vx < -10` ist, läuft sie nach links. Dabei wechseln wir zwischen `frame1` und `frame2`. Wenn sie steht und auf dem Boden ist, bekommt sie `frame3`.
 
@@ -1335,30 +1175,12 @@ game.onUpdate(function () {
 })
 ```
 
-## Schritt 60: Alles testen
-
-Starte dein Spiel und teste in dieser Reihenfolge:
-
-- Hintergrund ist sichtbar.
-- Spielfigur erscheint.
-- Spielfigur läuft mit links und rechts.
-- Boden ist fest und die Figur fällt nicht hindurch.
-- Spielfigur springt mit **A**.
-- Kamera folgt der Figur.
-- Spielfigur schießt mit **B**.
-- Gegner erscheinen und laufen.
-- Gegner können mit Schuss besiegt werden.
-- Gegner können von oben besiegt werden.
-- Berührung von der Seite kostet Leben.
-- Münzen geben Punkte.
-- Herzen geben Leben zurück.
-- Die Flagge beendet das Spiel mit Gewinn.
-- Wenn die Figur herunterfällt, ist das Spiel verloren.
-
-## Schritt 61: Fertig! @showdialog
+## Fertig! @showdialog
 
 Super gemacht! 🎮
 
-Du hast ein eigenes Jump'n'Run-Spiel gebaut: mit Hintergrund, Spielfigur, Tilemap, Wänden, Schwerkraft, Sprung, Kamera, Punkten, Leben, Projektil, Gegnern, Münzen, Herzen, Flagge, Animation und Game Over.
+Du hast ein eigenes Jump'n'Run-Spiel gebaut: mit Hintergrund, Spielfigur, Tilemap, Wänden, Schwerkraft, Sprung, Kamera, Punkten, Leben, Projektil, Gegnern, Münzen, Herzen, Flagge und Game Over.
+
+Wenn du den Profi-Teil gemacht hast, hat dein Spiel zusätzlich Gegner-von-oben-Logik und eine Laufanimation.
 
 Jetzt kannst du dein Level verschönern, mehr Plattformen bauen oder eigene Figuren und Gegenstände malen.
