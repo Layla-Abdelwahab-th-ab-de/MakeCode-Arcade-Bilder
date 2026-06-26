@@ -8,25 +8,21 @@ In diesem Tutorial programmierst du dein eigenes Jump'n'Run-Spiel in Microsoft M
 
 Du baust dein Spiel Schritt für Schritt auf: zuerst Hintergrund und Spielfigur, dann Boden und Schwerkraft, danach Springen, Kamera, Punkte, Schießen, Gegner, Münzen, Herzen, Flagge und am Ende eine einfache Laufanimation.
 
-Wichtig: Wenn du in einem Schritt eine **Glühbirne** siehst, kannst du darauf klicken. Dort findest du Bilder, Block-Vorlagen oder zusätzliche Hilfe. Die Glühbirne zeigt dir meistens nur, **welchen Block du suchen sollst**. Du musst nicht jedes Mal einen neuen `beim Start`-Block erstellen.
+Wichtig: Wenn du in einem Schritt eine **Glühbirne** siehst, kannst du darauf klicken. Dort findest du zusätzliche Hilfe mit Bildern.
 
 Klicke auf **Weiter**, um zu starten.
 
-## Schritt 1: Neues Arcade-Projekt öffnen
+## Schritt 1: Editor
 
-Wenn du dieses Tutorial über den Link geöffnet hast, bist du schon im richtigen Projekt.
-
-Prüfe nur kurz: Oben sollte **Blöcke** ausgewählt sein. Falls du JavaScript oder Python siehst, klicke oben auf **Blöcke**.
-
-Im Blöcke-Editor findest du links Kategorien wie **Szene**, **Sprites**, **Controller**, **Spiel**, **Info**, **Logik** und **Variablen**. Aus diesen Kategorien ziehst du die Blöcke in die Arbeitsfläche.
+Im Blöcke-Editor findest du links Kategorien wie **Szene**, **Sprites**, **Controller**, **Spiel**, **Info**, **Logik** und **Variablen**. Aus diesen Kategorien ziehst du die Blöcke in die Arbeitsfläche. Schau dir gerne zuerst alle Blöcke an, um sie später einfacher zu finden.
 
 ## Schritt 2: Der Startbereich
 
 Auf der Arbeitsfläche gibt es den grünen Block `||loops:beim Start||`.
 
-Alles, was in diesen Block kommt, passiert direkt beim Start des Spiels. Wir füllen diesen einen Startblock nach und nach von oben nach unten.
+Alles, was in diesen Block kommt, passiert direkt beim Start des Spiels. Wir füllen diesen nach und nach von oben nach unten.
 
-Wichtig: Erstelle keinen zweiten `beim Start`-Block. Wenn ein Schritt sagt, dass ein Block in `beim Start` gehört, ziehst du ihn unten in den vorhandenen Startblock.
+Wichtig: Erstelle keinen zweiten `beim Start`-Block. Wenn ein Schritt sagt, dass ein Block in `beim Start` gehört, ziehst du ihn unten in den zuletzt eingefügten Block
 
 ```blocks
 // Alles im Block "beim Start" passiert beim Start des Spiels.
@@ -40,7 +36,7 @@ Gehe links in die Kategorie **Szene**. Ziehe den Block `||scene:setze Hintergrun
 
 Klicke auf die Farbe und wähle ein helles Blau oder eine andere helle Farbe.
 
-Tipp in der Glühbirne: Dort siehst du, wie der Block aussehen soll.
+Tipp in der Glühbirne!
 
 ```blocks
 // @highlight
@@ -55,13 +51,12 @@ Gehe in die Kategorie **Sprites**. Ziehe den Block `||sprites:setze mySprite auf
 
 Klicke auf das kleine Bild im Block. Jetzt öffnet sich der Mal-Editor.
 
-Du hast zwei Möglichkeiten: Du kannst deine eigene Spielfigur malen oder über **Galerie** eine Figur auswählen und danach verändern.
+Du hast zwei Möglichkeiten: Du kannst deine eigene Spielfigur malen oder über **Galerie** eine Figur auswählen. In der Glühbirne findest du einen Designvorschlag.
 
-Tipp in der Glühbirne: Dort findest du eine mögliche Vorlage. Du musst sie nicht exakt nachmalen.
+Tipp in der Glühbirne!
 
 ![Vorschlag Spielfigur](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/sprite.png)
 
-Achte darauf, dass die Figur ungefähr 16 x 16 Pixel groß bleibt. Dann passt sie gut in die Tilemap.
 
 ```blocks
 // @highlight
@@ -91,16 +86,14 @@ Jetzt soll sich deine Figur bewegen können.
 
 Gehe in die Kategorie **Controller**. Ziehe den Block `||controller:bewege mySprite mit Knöpfen||` unter deine Spielfigur in `||loops:beim Start||`.
 
-Der Block zeigt am Anfang vielleicht nur wenig an. Klicke auf das kleine **Plus-Zeichen** am Block. Erst danach kannst du `vx` und `vy` einstellen.
+Klicke auf das kleine **Plus-Zeichen** am Block. Erst danach kannst du `vx` und `vy` einstellen.
 
 Stelle ein:
 
 - `vx = 100`
 - `vy = 0`
 
-`vx` ist die Geschwindigkeit nach links und rechts. `vy = 0` bedeutet: Die Pfeiltasten sollen die Figur nicht nach oben oder unten bewegen. Springen bauen wir später mit der A-Taste.
-
-Tipp in der Glühbirne: Wenn du den Block nicht erkennst, schaue dort nach.
+`vx` ist die Geschwindigkeit nach links und rechts. `vy = 0` bedeutet: Die Pfeiltasten sollen die Figur nicht nach oben oder unten bewegen. Springen bauen wir später mit der A-Taste ein.
 
 ```blocks
 let mySprite: Sprite = null
@@ -128,9 +121,7 @@ Gehe in die Kategorie **Szene** und ziehe den Block `||scene:setze Tilemap auf||
 
 Klicke auf das kleine Kachelbild im Block. Dadurch öffnet sich der **Tilemap-Editor**.
 
-Eine Tilemap ist deine Spielwelt aus kleinen Quadraten. Diese Quadrate heißen **Kacheln**. Aus Kacheln baust du Boden, Plattformen und später dein Level.
-
-Tipp in der Glühbirne: Dort siehst du den Tilemap-Block als Vorlage.
+Eine Tilemap ist deine Spielwelt aus kleinen Quadraten. Diese Quadrate heißen **Kacheln**. Aus Kacheln baust du Boden, Plattformen und später dein gesamtes Level.
 
 ```blocks
 // @highlight
@@ -145,9 +136,8 @@ Stelle ein:
 
 - Breite: `50`
 - Höhe: `15`
-- Kachelgröße: `16 x 16`
 
-Die Welt ist damit breiter als der Bildschirm. Später folgt die Kamera deiner Spielfigur, damit du trotzdem alles sehen kannst.
+Die Welt ist damit breiter als der Bildschirm. Keine Sorge: Später folgt die Kamera deiner Spielfigur, damit du trotzdem alles sehen kannst.
 
 Tipp in der Glühbirne: Das Bild zeigt dir, wo du Breite und Höhe findest.
 
@@ -160,8 +150,6 @@ Die Zahl links ist die Breite. Die Zahl rechts ist die Höhe.
 Male jetzt noch keine ganze Welt. Für den Anfang reicht ein einfacher Boden, damit die Figur nicht dauerhaft herunterfällt.
 
 Wähle eine Boden-Kachel, zum Beispiel Gras oder Erde. Male unten im Tilemap-Editor eine durchgehende Bodenfläche.
-
-Tipp in der Glühbirne: Dort siehst du passende Boden-Kacheln.
 
 ![Vorschlag Boden-Kacheln](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/tilemap_boden_kacheln.png)
 
@@ -185,8 +173,6 @@ Merke dir: Boden muss **gemalt** und zusätzlich als **Wand** markiert sein. Ers
 
 Wenn dein erster Boden fertig ist, klicke im Tilemap-Editor auf **Fertig** oder schließe den Editor.
 
-Der Block `||scene:setze Tilemap auf||` bleibt im `||loops:beim Start||`-Bereich.
-
 ```blocks
 tiles.setCurrentTilemap(tilemap`Level1`)
 ```
@@ -195,15 +181,15 @@ tiles.setCurrentTilemap(tilemap`Level1`)
 
 Jetzt soll die Figur nach unten fallen und auf dem Boden stehen bleiben. Dafür bekommt sie eine **Beschleunigung nach unten**.
 
-Gehe links in die Kategorie **Sprites**. Suche dort den Block, der ungefähr so aussieht:
+Gehe links in die Kategorie **Sprites**. Suche dort den Block, der so aussieht:
 
 `setze mySprite x auf 0`
 
-Der Block kann am Anfang auch eine andere Eigenschaft anzeigen, zum Beispiel `x`, `y`, `vx`, `vy` oder `Bild`. Das ist richtig, denn diese Eigenschaft kann man über ein Dropdown-Menü ändern.
+Der Block kann am Anfang auch eine andere Eigenschaft anzeigen, zum Beispiel `x`, `y`, `vx`, `vy` etc.. Diese Eigenschaft kann man über das Dropdown-Menü ändern.
 
 Ziehe diesen Block in den vorhandenen `||loops:beim Start||`-Block, unter deine bisherigen Start-Blöcke. Erstelle keinen neuen `||loops:beim Start||`-Block.
 
-Klicke im Block auf das Dropdown-Menü mit der Eigenschaft. Wähle dort:
+Klicke im Block auf das Dropdown-Menü und wähle dort:
 
 `ay (Beschleunigung y)`
 
@@ -215,7 +201,7 @@ Dann sieht der Block so aus:
 
 `setze mySprite ay (Beschleunigung y) auf 350`
 
-`ay` ist die Schwerkraft in unserem Spiel. Eine positive Zahl zieht die Figur nach unten. Achte genau darauf: Nicht `y`, nicht `vy`, sondern `ay`.
+`ay` ist die Schwerkraft in unserem Spiel. Eine positive Zahl zieht die Figur nach unten.
 
 ```blocks
 let mySprite: Sprite = null
@@ -225,7 +211,7 @@ mySprite.ay = 350
 
 ## Schritt 13: Spielfigur an den Start setzen
 
-Jetzt legen wir fest, wo die Figur am Anfang erscheint.
+Jetzt legen wir fest, wo die Figur am Anfang auf dem Bildschirm erscheint.
 
 Gehe in die Kategorie **Sprites**. Ziehe den Block `||sprites:setze Position von mySprite auf x y||` in `||loops:beim Start||`.
 
@@ -234,7 +220,7 @@ Stelle ein:
 - `x = 20`
 - `y = 100`
 
-Damit startet die Figur links im Level und steht in der Nähe des Bodens.
+Damit startet die Figur links unten im Level.
 
 ```blocks
 let mySprite: Sprite = null
@@ -271,7 +257,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 
 In den A-Block kommt eine Bedingung.
 
-Die Figur darf nur springen, wenn `vy = 0` ist. Das bedeutet: Sie bewegt sich gerade nicht nach oben oder unten und steht auf dem Boden.
+Die Figur darf nur springen, wenn `vy = 0` ist. Das bedeutet: Sie bewegt sich gerade nicht nach oben oder unten.
 
 Wenn die Bedingung stimmt, setzen wir `vy` auf `-220`. Eine negative y-Geschwindigkeit bewegt die Figur nach oben.
 
@@ -292,9 +278,7 @@ Prüfe:
 
 - Springt die Figur nach oben?
 - Fällt sie danach wieder auf den Boden?
-- Kann sie nicht unendlich oft in der Luft springen?
-
-Wenn sie nicht springt, prüfe: Im A-Block muss `vy = -220` stehen und der Boden muss eine Wand sein.
+- Kann sie unendlich oft in der Luft springen? Die zuvor programmierte Schwerkraft sollte das verhindern.
 
 ## Schritt 18: Spielfigur darf den Bildschirm verlassen
 
@@ -359,14 +343,14 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
 
 Gehe in die Kategorie **Sprites**. Ziehe in den B-Block den Block `||sprites:setze projectile auf Projektil von mySprite||`.
 
-Klicke auf das Bild und male ein kleines Feuer-Projektil.
+Klicke auf das Bild und male ein kleines Feuer-Projektil. 
 
 Stelle ein:
 
 - `vx = 150`
 - `vy = 0`
 
-`vx = 150` bedeutet: Das Projektil fliegt nach rechts. `vy = 0` bedeutet: Es fliegt nicht nach oben oder unten.
+`vx = 150` bedeutet: Das Projektil fliegt nach rechts. `vy = 0` bedeutet: Es fliegt nicht nach oben oder unten. Wir wollen einen geraden Schuss.
 
 Danach spielst du einen Ton ab.
 
@@ -420,7 +404,7 @@ So geht das:
 2. Wähle **Hinzufügen** oder **Add a new kind**.
 3. Schreibe den Namen genau so: `Coin`, `Heart` oder `Flag`.
 
-Groß- und Kleinschreibung ist wichtig. `Coin` und `coin` sind nicht dasselbe.
+Groß- und Kleinschreibung ist wichtig. `Coin` und `coin` sind nicht dasselbe. Vermeide ä, ü, ö.
 
 ```typescript
 namespace SpriteKind {
