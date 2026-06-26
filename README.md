@@ -6,7 +6,7 @@ Willkommen! 🎮
 
 In diesem Tutorial programmierst du dein eigenes Jump'n'Run-Spiel in Microsoft MakeCode Arcade.
 
-Du baust dein Spiel Schritt für Schritt auf: zuerst Hintergrund und Spielfigur, dann Boden und Schwerkraft, danach Springen, Kamera, Punkte, Schießen, Gegner, Münzen, Herzen, Flagge und am Ende eine einfache Laufanimation.
+Du baust dein Spiel Schritt für Schritt auf: zuerst Hintergrund und Spielfigur, dann Boden und Schwerkraft, danach Springen, Kamera, Punkte, Schießen, Gegner, Münzen, Herzen, Flagge und am Ende optional eine einfache Laufanimation.
 
 Wichtig: Wenn du in einem Schritt eine **Glühbirne** siehst, kannst du darauf klicken. Dort findest du zusätzliche Hilfe mit Bildern.
 
@@ -945,6 +945,9 @@ flag.setFlag(SpriteFlag.GhostThroughWalls, true)
 Jetzt soll MakeCode merken, wenn deine Spielfigur die Flagge berührt.
 
 Gehe in die Kategorie **Sprites**. Ziehe einen **Wenn-Block** frei auf die Arbeitsfläche.
+
+Dieser Block kommt **nicht** in `||loops:beim Start||`. Er ist ein eigener Ereignis-Block.
+
 Hier bist du gefragt! Kriegst du diesen Block allein zusammengebaut? Tipp: Orientiere dich an den **Wenn-Blöcken** für Herzen, Münzen oder Gegnern
 Wenn die Spielfigur die Flagge berührt, gibt es Konfetti, ein Ton wird abgespielt und das Spiel ist gewonnen. Die Lösung findest du ansonsten in der Glühbirne.
 
@@ -960,6 +963,8 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Flag, function (sprite, otherSpr
 
 Gehe in die Kategorie **Spiel** und ziehe den Block `||game:wenn Spielupdate||` frei auf die Arbeitsfläche.
 
+Dieser Block kommt **nicht** in `||loops:beim Start||`. Er ist ein eigener Block auf der Arbeitsfläche.
+
 Dieser Block wird immer wieder ausgeführt, solange das Spiel läuft. Deshalb eignet er sich für Dinge, die ständig geprüft werden müssen.
 
 ```blocks
@@ -969,20 +974,20 @@ game.onUpdate(function () {
 
 ## Schritt 47: Herunterfallen bedeutet Game Over
 
-Jetzt füllen wir den Block ||game:wenn Spielupdate||.
+Jetzt füllen wir den Block `||game:wenn Spielupdate||`.
 
-Gehe in die Kategorie Logik und füge eine ||logic:wenn dann||-Bedingung in den Spielupdate-Block ein.
+Gehe in die Kategorie Logik und füge eine `||logic:wenn dann||`-Bedingung in den Spielupdate-Block ein.
 
+**BITTE SCHAUE DIR HIERZU DAS BEIGEFÜGTE VIDEO IN DER GLÜHBIRNE AN**
 Die Bedingung lautet:
 
 mySprite y > 230
 
 Das bedeutet: Wenn die y-Position deiner Spielfigur größer als 230 ist, ist sie zu weit nach unten gefallen. Dann hat sie das Level verlassen.
-Die Bedingung findest du bei **Sprites** als mySprite x und wählst **y** statt x aus. 
 
-In den dann-Teil kommt aus der Kategorie Spiel der Block:
+In den **dann-Teil** kommt aus der Kategorie **Spiel** der Block:
 
-||game:Spielende VERLIEREN||
+`||game:Spielende VERLIEREN||`
 
 Dann endet das Spiel, sobald deine Figur herunterfällt.
 
@@ -1015,6 +1020,18 @@ Starte dein Spiel und teste in dieser Reihenfolge:
 - Herzen geben Leben zurück.
 - Die Flagge beendet das Spiel mit Gewinn.
 - Wenn die Figur herunterfällt, ist das Spiel verloren.
+
+## Fertig! @showdialog
+
+Super gemacht! 🎮
+
+Du hast ein eigenes Jump'n'Run-Spiel gebaut: mit Hintergrund, Spielfigur, Tilemap, Wänden, Schwerkraft, Sprung, Kamera, Punkten, Leben, Projektil, Gegnern, Münzen, Herzen, Flagge und Game Over.
+
+Jetzt kannst du dein Level verschönern, mehr Plattformen bauen oder eigene Figuren und Gegenstände malen.
+
+In den nachfolgenden Schritten kommt der **Profi-Teil** in dem du Bedingungen für das seitliche und vertikale Berühren eines Gegners definierst ((seitlich = ein Leben weniger und von oben drauf springen = Gegner besiegt) und eine **Laufanimation** mit in das Spiel einbaust **DIESE SCHRITTE SIND ALLE OPTIONAL**
+
+
 
 ## Optional: Nur für Profis – Gegner von oben besiegen
 
@@ -1061,6 +1078,8 @@ Erstelle drei Variablen:
 - `frame1`
 - `frame2`
 - `frame3`
+
+Die drei Blöcke zum Speichern der Bilder gehören in den vorhandenen `||loops:beim Start||`-Block. Dort werden die Bilder beim Start des Spiels vorbereitet.
 
 `frame1` und `frame2` sind Laufbilder. `frame3` ist das Stand- und Sprungbild.
 
@@ -1185,12 +1204,3 @@ game.onUpdate(function () {
 })
 ```
 
-## Fertig! @showdialog
-
-Super gemacht! 🎮
-
-Du hast ein eigenes Jump'n'Run-Spiel gebaut: mit Hintergrund, Spielfigur, Tilemap, Wänden, Schwerkraft, Sprung, Kamera, Punkten, Leben, Projektil, Gegnern, Münzen, Herzen, Flagge und Game Over.
-
-Wenn du den Profi-Teil gemacht hast, hat dein Spiel zusätzlich Gegner-von-oben-Logik und eine Laufanimation.
-
-Jetzt kannst du dein Level verschönern, mehr Plattformen bauen oder eigene Figuren und Gegenstände malen.
