@@ -398,9 +398,9 @@ Jetzt kannst du deine Tilemap erweitern.
 
 Male erstmal nur **1 bis 2 Plattformen** über dem Boden und markiere jede Plattform wieder als **Wand**. Teste danach direkt. Bedenke, dass dein Sprite nur begrenzt hochspringen kann. Male die Plattformen also nicht zu hoch!
 
-Du kannst auch kleine Hindernisse auf den Boden malen, über die man springen muss. Oder du baust niedrige Blöcke als Zwischenstufe, damit deine Figur höhere Plattformen erreichen kann. Werde kreativ, aber teste immer wieder, ob dein Level spielbar bleibt.
+Du kannst auch **kleine Hindernisse auf den Boden** malen, über die man springen muss. Oder du baust **niedrige Blöcke als Zwischenstufe**, damit deine Figur höhere Plattformen erreichen kann. Werde kreativ, aber **teste immer wieder**, ob dein Level spielbar bleibt.
 
-Wenn du schon schneller bist, kannst du die vollständige Welt ungefähr nach dieser Vorlage malen.
+Wenn du schon schneller bist, kannst du die vollständige Welt ungefähr nach der Vorlage in der Glühbirne malen.
 
 ![Vorschlag vollständige Tilemap](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/tilemap_vollstaendig.png)
 
@@ -412,18 +412,18 @@ So sieht dieselbe Welt aus, wenn die Wände angezeigt werden:
 
 Jetzt bauen wir einen Helfer-Block für Gegner.
 
-Gehe links auf **Fortgeschritten**. Öffne **Funktionen** und klicke auf **Funktion erstellen**.
+Gehe links auf **Fortgeschritten**. Öffne ||functions:Funktionen|| und klicke auf **erstelle eine Funktion**.
 
-Nenne die Funktion genau:
+Ersetze das Feld **macheEtwas** mit dem Namen:
 
 `platziereGegner`
 
-Füge zwei Parameter hinzu:
+Füge zwei Zahlen-Parameter hinzu - klicke einfach 2x auf das Taschenrechnersymbol:
 
-- `x` als Zahl
-- `y` als Zahl
+- ersetze num mit **x**
+- ersetze num2 mit **y**
 
-Eine Funktion ist wie ein Rezept. Du erstellst sie einmal und kannst sie später mehrfach benutzen.
+Diese Funktion platzierst du einfach auf die Arbeitsfläche.
 
 ```blocks
 function platziereGegner (x: number, y: number) {
@@ -432,16 +432,43 @@ function platziereGegner (x: number, y: number) {
 
 ## Schritt 26: Gegner malen und bewegen
 
-In die Funktion `platziereGegner` kommt ein Sprite vom Typ `Enemy`.
+Jetzt füllen wir die Funktion platziereGegner.
 
-Male einen Gegner. Danach stellst du ein:
+Gehe in die Kategorie Sprites. Ziehe den Block ||sprites:setze mySprite auf Sprite vom Typ Player|| in die Funktion platziereGegner.
 
-- Position: `x`, `y`
-- `ay = 350`
-- `vx = 30`
-- `pralle gegen Wand = EIN`
+Achte jetzt auf zwei Dropdown-Menüs im Block:
 
-Der Gegner bekommt also auch Schwerkraft, läuft automatisch los und prallt an Wänden ab.
+Klicke links auf mySprite und wähle Neue Variable.... Nenne die neue Variable genau e.
+Klicke rechts auf Player und wähle Enemy aus.
+
+Wichtig: Wähle bei mySprite nicht „Variable umbenennen...“. Sonst würdest du deine Spielfigur umbenennen. Für den Gegner brauchst du eine neue Variable.
+
+Jetzt sollte der Block ungefähr so aussehen:
+
+setze e auf Sprite vom Typ Enemy
+
+Klicke auf das kleine Bild im Block und male deinen Gegner. Du kannst dich am Vorschlag orientieren.
+
+Danach bekommt der Gegner seine Position. Gehe wieder in Sprites und ziehe den Block ||sprites:setze Position von e auf x y|| unter den Gegner-Block.
+
+Stelle ein:
+
+x = x
+y = y
+
+Das ist richtig so: Die rechten x und y kommen aus deiner Funktion. Dadurch kannst du später beim Aufruf der Funktion entscheiden, wo der Gegner erscheinen soll.
+
+Jetzt bekommt der Gegner Schwerkraft. Suche in Sprites den Eigenschaftsblock, der ungefähr so aussieht:
+
+setze e x auf 0
+
+Wähle im Dropdown-Menü die Eigenschaft ay (Beschleunigung y) aus und stelle den Wert auf 350.
+
+Nimm danach nochmal denselben Eigenschaftsblock. Wähle diesmal vx (Geschwindigkeit x) aus und stelle den Wert auf 30.
+
+Zum Schluss soll der Gegner an Wänden umdrehen. Gehe in Sprites und nimm den Block ||sprites:setze e pralle gegen Wand auf EIN||.
+
+Der Gegner fällt jetzt auf den Boden, läuft los und prallt an Wänden oder Plattformen ab.
 
 ![Vorschlag Enemy](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/enemy.png)
 
@@ -490,20 +517,54 @@ platziereGegner(128, 96)
 
 Wenn du später weitere Gegner möchtest, setzt du denselben Funktionsaufruf nochmal darunter und änderst nur die Positionen.
 
-## Schritt 28: Gegner mit Projektil besiegen
+## Schritt 28: Schuss trifft Gegner erkennen
 
-Jetzt soll ein Schuss einen Gegner zerstören.
+Jetzt soll MakeCode merken, wenn ein Projektil einen Gegner berührt.
 
-Ziehe einen neuen Overlap-Block heraus:
+Gehe in die Kategorie **Sprites**. Ziehe den Block `||sprites:wenn Sprite der Art Player überlappt otherSprite der Art Player||` frei auf die Arbeitsfläche.
 
-`Projectile` überlappt `Enemy`.
+Dieser Block kommt **nicht** in `||loops:beim Start||`. Er ist ein eigener Ereignis-Block.
 
-Wenn ein Schuss einen Gegner trifft:
+Stelle im oberen Teil des Blocks ein:
 
-- Gegner verschwindet mit Feuer-Effekt.
-- Schuss verschwindet.
-- Punktzahl steigt um 2.
-- Ein Ton wird abgespielt.
+- links: `Projectile`
+- rechts: `Enemy`
+
+Dann bedeutet der Block: **Wenn ein Schuss einen Gegner berührt, dann passiert etwas.**
+
+```blocks
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
+})
+```
+
+## Schritt 29: Gegner durch Schuss zerstören
+
+Jetzt füllen wir den Overlap-Block von eben.
+
+Im Block gibt es zwei Namen:
+
+- `sprite` ist hier das Projektil.
+- `otherSprite` ist hier der Gegner.
+
+Gehe in die Kategorie **Sprites**. Ziehe in den Overlap-Block den Block `||sprites:zerstöre otherSprite mit Feuer Effekt für 300 ms||`.
+
+Damit verschwindet der Gegner mit einem Feuer-Effekt.
+
+```blocks
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
+    otherSprite.destroy(effects.fire, 300)
+})
+```
+
+## Schritt 30: Schuss entfernen, Punkte geben und Ton abspielen
+
+Der Gegner verschwindet jetzt. Der Schuss soll aber auch verschwinden, damit er nicht weiterfliegt.
+
+Gehe in die Kategorie **Sprites** und füge unter dem Feuer-Effekt den Block `||sprites:zerstöre sprite||` ein.
+
+Danach gehst du in **Info** und fügst `||info:ändere Punktzahl um 2||` ein.
+
+Zum Schluss gehst du in **Musik** und spielst einen passenden Ton ab, zum Beispiel `zapped`.
 
 ```blocks
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
@@ -514,15 +575,82 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, oth
 })
 ```
 
-## Schritt 29: Gegner von oben besiegen
+## Schritt 31: Berührung mit Gegner erkennen
 
-Jetzt soll die Figur Gegner auch von oben besiegen können.
+Jetzt soll auch etwas passieren, wenn deine Spielfigur einen Gegner berührt.
 
-Ziehe einen neuen Overlap-Block heraus:
+Gehe in die Kategorie **Sprites**. Ziehe wieder einen Overlap-Block frei auf die Arbeitsfläche.
 
-`Player` überlappt `Enemy`.
+Stelle im oberen Teil des Blocks ein:
 
-Dann prüfen wir mit einer Bedingung: Kommt die Spielfigur wirklich von oben? Wenn ja, wird der Gegner besiegt. Wenn sie den Gegner von der Seite berührt, verliert sie ein Leben.
+- links: `Player`
+- rechts: `Enemy`
+
+Dieser Block bedeutet: **Wenn die Spielfigur einen Gegner berührt, dann passiert etwas.**
+
+```blocks
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+})
+```
+
+## Schritt 32: Prüfen, ob die Spielfigur von oben kommt
+
+Jetzt wird es etwas schlauer: Ein Gegner soll nur besiegt werden, wenn deine Spielfigur **von oben** auf ihn springt.
+
+In den Overlap-Block kommt eine `||logic:wenn dann ansonsten||`-Bedingung.
+
+Die Bedingung lautet:
+
+`sprite vy > 0` **und** `sprite unten < otherSprite oben + 8`
+
+Das bedeutet einfach gesagt: Die Spielfigur fällt gerade nach unten und ist noch knapp über dem Gegner.
+
+```blocks
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    if (sprite.vy > 0 && sprite.bottom < otherSprite.top + 8) {
+    } else {
+    }
+})
+```
+
+## Schritt 33: Gegner von oben besiegen
+
+Jetzt füllen wir den **wenn**-Teil.
+
+Wenn die Spielfigur von oben kommt, soll der Gegner verschwinden. Danach springt die Spielfigur leicht nach oben zurück und bekommt 2 Punkte.
+
+Füge in den **wenn**-Teil ein:
+
+- `||sprites:zerstöre otherSprite mit Lächeln Effekt für 300 ms||`
+- `||sprites:setze sprite vy auf -120||`
+- `||info:ändere Punktzahl um 2||`
+- Ton `zapped`
+
+```blocks
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    if (sprite.vy > 0 && sprite.bottom < otherSprite.top + 8) {
+        otherSprite.destroy(effects.smiles, 300)
+        sprite.vy = -120
+        info.changeScoreBy(2)
+        music.zapped.play()
+    } else {
+    }
+})
+```
+
+## Schritt 34: Seitliche Berührung kostet ein Leben
+
+Jetzt füllen wir den **ansonsten**-Teil.
+
+Wenn die Spielfigur den Gegner nicht von oben trifft, dann war es eine seitliche Berührung. Dann verliert sie ein Leben.
+
+Füge in den **ansonsten**-Teil ein:
+
+- `||sprites:starte Feuer Effekt an sprite für 500 ms||`
+- `||info:ändere Leben um -1||`
+- `||sprites:setze sprite vx auf -80||`
+- `||loops:pausiere 300 ms||`
+- danach wieder `||sprites:setze sprite vx auf mySprite vx||`
 
 ```blocks
 let mySprite: Sprite = null
@@ -542,38 +670,71 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
 })
 ```
 
-## Schritt 30: Testen: Gegner
+## Schritt 35: Testen: Gegner
 
-Starte das Spiel und teste:
+Starte das Spiel und teste den Gegner.
+
+Prüfe:
 
 - Läuft der Gegner auf dem Boden?
 - Prallt er an Wänden oder Plattformen ab?
-- Kannst du ihn mit B abschießen?
+- Kannst du ihn mit **B** abschießen?
 - Kannst du ihn von oben besiegen?
 - Verlierst du ein Leben, wenn du ihn von der Seite berührst?
 
-Wenn der Gegner herunterfällt, fehlt unter ihm Boden oder die Plattform ist keine Wand.
+Wenn der Gegner herunterfällt, fehlt unter ihm Boden oder die Plattform ist nicht als Wand markiert.
 
-## Schritt 31: Münzen mit einer Funktion erstellen
+## Schritt 36: Funktion für Münzen erstellen
 
-Jetzt kommen Sammelobjekte.
+Jetzt bauen wir einen Helfer-Block für Münzen.
 
-Erstelle eine neue Funktion mit dem Namen:
+Gehe links auf **Fortgeschritten**. Öffne `||functions:Funktionen||` und klicke auf **erstelle eine Funktion**.
+
+Ersetze das Feld **macheEtwas** mit dem Namen:
 
 `platziereMuenze`
 
-Füge zwei Parameter hinzu:
+Füge zwei Zahlen-Parameter hinzu - klicke dafür 2x auf das Taschenrechnersymbol:
 
-- `x` als Zahl
-- `y` als Zahl
+- ersetze `num` mit **x**
+- ersetze `num2` mit **y**
 
-In diese Funktion kommt ein Sprite vom Typ `Coin`.
+Diese Funktion platzierst du frei auf die Arbeitsfläche.
 
-Wenn `Coin` im Dropdown-Menü noch nicht auftaucht, erstellst du es genau hier: Klicke im Sprite-Block auf das Dropdown-Menü mit der Art, wähle **Hinzufügen** oder **Add a new kind** und schreibe genau `Coin`.
+```blocks
+function platziereMuenze (x: number, y: number) {
+}
+```
 
-Die Münze bekommt außerdem **Geist durch Wände = EIN**, damit sie nicht herunterfällt oder an Wänden hängen bleibt.
+## Schritt 37: Münze malen und einstellen
+
+Jetzt füllen wir die Funktion `platziereMuenze`.
+
+Gehe in die Kategorie **Sprites**. Ziehe den Block `||sprites:setze mySprite auf Sprite vom Typ Player||` in die Funktion `platziereMuenze`.
+
+Achte wieder auf zwei Dropdown-Menüs im Block:
+
+1. Klicke links auf `mySprite` und wähle **Neue Variable...**. Nenne die neue Variable genau `coin`.
+2. Klicke rechts auf `Player`. Falls `Coin` noch nicht existiert, wähle **Hinzufügen** oder **Add a new kind** und schreibe genau `Coin`. Wähle danach `Coin` aus.
+
+Wichtig: Wähle links bei `mySprite` **nicht** „Variable umbenennen...“. Für die Münze brauchst du eine neue Variable.
+
+Jetzt sollte der Block ungefähr so aussehen:
+
+`setze coin auf Sprite vom Typ Coin`
+
+Klicke auf das kleine Bild im Block und male eine Münze. Du kannst dich am Vorschlag orientieren.
 
 ![Vorschlag Münze](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/muenze.png)
+
+Danach bekommt die Münze ihre Position. Gehe in **Sprites** und ziehe den Block `||sprites:setze Position von coin auf x y||` unter den Münz-Block.
+
+Stelle ein:
+
+- `x = x`
+- `y = y`
+
+Zum Schluss soll die Münze an ihrer Stelle bleiben. Gehe in **Sprites** und füge den Block `||sprites:setze coin Geist durch Wände auf EIN||` hinzu.
 
 ```blocks
 let coin: Sprite = null
@@ -595,13 +756,35 @@ function platziereMuenze (x: number, y: number) {
 }
 ```
 
-## Schritt 32: Münze einsammeln
+## Schritt 38: Münze einsammeln vorbereiten
 
-Ziehe einen neuen Overlap-Block heraus:
+Jetzt soll MakeCode merken, wenn deine Spielfigur eine Münze berührt.
 
-`Player` überlappt `Coin`.
+Gehe in die Kategorie **Sprites**. Ziehe einen Overlap-Block frei auf die Arbeitsfläche.
 
-Wenn die Spielfigur eine Münze berührt, verschwindet die Münze, die Punktzahl steigt um 1 und ein Ton wird abgespielt.
+Stelle oben ein:
+
+- links: `Player`
+- rechts: `Coin`
+
+Der Block bedeutet: **Wenn die Spielfigur eine Münze berührt, dann passiert etwas.**
+
+```blocks
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Coin, function (sprite, otherSprite) {
+})
+```
+
+## Schritt 39: Münze einsammeln
+
+Jetzt füllen wir den Münz-Overlap.
+
+Wenn die Spielfigur eine Münze berührt, soll die Münze verschwinden, die Punktzahl um 1 steigen und ein Ton abgespielt werden.
+
+Füge in den Overlap-Block ein:
+
+- `||sprites:zerstöre otherSprite mit Lächeln Effekt für 200 ms||`
+- `||info:ändere Punktzahl um 1||`
+- Ton `Einschalten` oder `powerUp`
 
 ```blocks
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Coin, function (sprite, otherSprite) {
@@ -611,7 +794,9 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Coin, function (sprite, otherSpr
 })
 ```
 
-## Schritt 33: Münzen platzieren
+## Schritt 40: Münzen platzieren
+
+Jetzt benutzt du deine Funktion.
 
 Gehe zu **Funktionen** und ziehe den Block `||functions:Aufruf platziereMuenze||` in `||loops:beim Start||`.
 
@@ -621,7 +806,7 @@ Trage eine Position ein, zum Beispiel:
 platziereMuenze(112, 96)
 ```
 
-Du kannst so viele Münzen platzieren, wie du möchtest. Dafür setzt du den Block `Aufruf platziereMuenze` mehrmals untereinander und änderst jedes Mal `x` und `y`.
+Du kannst so viele Münzen platzieren, wie du möchtest. Setze den Block `Aufruf platziereMuenze` dafür mehrmals untereinander und ändere jedes Mal `x` und `y`.
 
 Beispielpositionen aus dem fertigen Spiel:
 
@@ -638,26 +823,57 @@ platziereMuenze(640, 96)
 platziereMuenze(672, 96)
 ```
 
-## Schritt 34: Herzen mit einer Funktion erstellen
+## Schritt 41: Funktion für Herzen erstellen
 
-Herzen geben deiner Figur Leben zurück.
+Jetzt bauen wir einen Helfer-Block für Herzen.
 
-Erstelle eine neue Funktion mit dem Namen:
+Gehe links auf **Fortgeschritten**. Öffne `||functions:Funktionen||` und klicke auf **erstelle eine Funktion**.
+
+Ersetze das Feld **macheEtwas** mit dem Namen:
 
 `platziereHerz`
 
-Füge zwei Parameter hinzu:
+Füge zwei Zahlen-Parameter hinzu - klicke dafür 2x auf das Taschenrechnersymbol:
 
-- `x` als Zahl
-- `y` als Zahl
+- ersetze `num` mit **x**
+- ersetze `num2` mit **y**
 
-In diese Funktion kommt ein Sprite vom Typ `Heart`.
+Diese Funktion platzierst du frei auf die Arbeitsfläche.
 
-Wenn `Heart` im Dropdown-Menü noch nicht auftaucht, erstellst du es direkt im Sprite-Block über **Hinzufügen** oder **Add a new kind** und schreibst genau `Heart`.
+```blocks
+function platziereHerz (x: number, y: number) {
+}
+```
 
-Auch das Herz bekommt **Geist durch Wände = EIN**, damit es an seiner Position bleibt.
+## Schritt 42: Herz malen und einstellen
+
+Jetzt füllen wir die Funktion `platziereHerz`.
+
+Gehe in die Kategorie **Sprites**. Ziehe den Block `||sprites:setze mySprite auf Sprite vom Typ Player||` in die Funktion `platziereHerz`.
+
+Achte wieder auf zwei Dropdown-Menüs im Block:
+
+1. Klicke links auf `mySprite` und wähle **Neue Variable...**. Nenne die neue Variable genau `heart`.
+2. Klicke rechts auf `Player`. Falls `Heart` noch nicht existiert, wähle **Hinzufügen** oder **Add a new kind** und schreibe genau `Heart`. Wähle danach `Heart` aus.
+
+Wichtig: Wähle links bei `mySprite` **nicht** „Variable umbenennen...“. Für das Herz brauchst du eine neue Variable.
+
+Jetzt sollte der Block ungefähr so aussehen:
+
+`setze heart auf Sprite vom Typ Heart`
+
+Klicke auf das kleine Bild im Block und male ein Herz. Du kannst dich am Vorschlag orientieren.
 
 ![Vorschlag Herz](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/herz.png)
+
+Danach bekommt das Herz seine Position. Gehe in **Sprites** und ziehe den Block `||sprites:setze Position von heart auf x y||` unter den Herz-Block.
+
+Stelle ein:
+
+- `x = x`
+- `y = y`
+
+Zum Schluss soll das Herz an seiner Stelle bleiben. Gehe in **Sprites** und füge den Block `||sprites:setze heart Geist durch Wände auf EIN||` hinzu.
 
 ```blocks
 let heart: Sprite = null
@@ -677,13 +893,33 @@ function platziereHerz (x: number, y: number) {
 }
 ```
 
-## Schritt 35: Herz einsammeln
+## Schritt 43: Herz einsammeln vorbereiten
 
-Ziehe einen neuen Overlap-Block heraus:
+Jetzt soll MakeCode merken, wenn deine Spielfigur ein Herz berührt.
 
-`Player` überlappt `Heart`.
+Gehe in die Kategorie **Sprites**. Ziehe einen Overlap-Block frei auf die Arbeitsfläche.
 
-Wenn die Spielfigur weniger als 3 Leben hat, bekommt sie ein Leben dazu. Wenn sie schon 3 Leben hat, verschwindet das Herz trotzdem.
+Stelle oben ein:
+
+- links: `Player`
+- rechts: `Heart`
+
+```blocks
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite, otherSprite) {
+})
+```
+
+## Schritt 44: Herz gibt Leben zurück
+
+Jetzt füllen wir den Herz-Overlap.
+
+Gehe in die Kategorie **Logik** und füge eine `||logic:wenn dann ansonsten||`-Bedingung ein.
+
+Die Bedingung lautet:
+
+`Leben < 3`
+
+Wenn deine Spielfigur weniger als 3 Leben hat, bekommt sie ein Leben zurück. Wenn sie schon 3 Leben hat, verschwindet das Herz trotzdem.
 
 ```blocks
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite, otherSprite) {
@@ -697,9 +933,11 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite, otherSp
 })
 ```
 
-## Schritt 36: Herzen platzieren
+## Schritt 45: Herzen platzieren
 
-Ziehe den Block `||functions:Aufruf platziereHerz||` in `||loops:beim Start||`.
+Jetzt benutzt du deine Funktion.
+
+Gehe zu **Funktionen** und ziehe den Block `||functions:Aufruf platziereHerz||` in `||loops:beim Start||`.
 
 Trage eine Position ein, zum Beispiel:
 
@@ -717,7 +955,7 @@ platziereHerz(528, 64)
 platziereHerz(656, 96)
 ```
 
-## Schritt 37: Weitere Gegner platzieren
+## Schritt 46: Weitere Gegner platzieren
 
 Du kannst auch mehrere Gegner einbauen.
 
@@ -731,22 +969,27 @@ platziereGegner(400, 96)
 platziereGegner(656, 96)
 ```
 
-## Schritt 38: Ziel-Flagge erstellen
+## Schritt 47: Ziel-Flagge erstellen
 
 Am Ende des Levels braucht dein Spiel ein Ziel.
 
-Gehe zu **Sprites** und erstelle einen Sprite vom Typ `Flag`.
+Gehe in die Kategorie **Sprites**. Ziehe den Block `||sprites:setze mySprite auf Sprite vom Typ Player||` in `||loops:beim Start||`.
 
-Wenn `Flag` im Dropdown-Menü noch nicht auftaucht, erstellst du es direkt im Sprite-Block über **Hinzufügen** oder **Add a new kind** und schreibst genau `Flag`.
+Achte wieder auf zwei Dropdown-Menüs:
 
-Male eine kleine Flagge. Setze die Position auf:
+1. Klicke links auf `mySprite` und wähle **Neue Variable...**. Nenne die neue Variable genau `flag`.
+2. Klicke rechts auf `Player`. Falls `Flag` noch nicht existiert, wähle **Hinzufügen** oder **Add a new kind** und schreibe genau `Flag`. Wähle danach `Flag` aus.
+
+Klicke auf das kleine Bild und male eine Flagge. Du kannst dich am Vorschlag orientieren.
+
+![Vorschlag Flagge](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/flagge.png)
+
+Setze danach die Position auf:
 
 - `x = 768`
 - `y = 80`
 
 Setze außerdem **Geist durch Wände = EIN**, damit die Flagge nicht herunterfällt oder an Kacheln hängen bleibt.
-
-![Vorschlag Flagge](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/flagge.png)
 
 ```blocks
 let flag = sprites.create(img`
@@ -771,11 +1014,16 @@ flag.setPosition(768, 80)
 flag.setFlag(SpriteFlag.GhostThroughWalls, true)
 ```
 
-## Schritt 39: Spiel gewinnen
+## Schritt 48: Spiel gewinnen
 
-Ziehe einen neuen Overlap-Block heraus:
+Jetzt soll MakeCode merken, wenn deine Spielfigur die Flagge berührt.
 
-`Player` überlappt `Flag`.
+Gehe in die Kategorie **Sprites**. Ziehe einen Overlap-Block frei auf die Arbeitsfläche.
+
+Stelle oben ein:
+
+- links: `Player`
+- rechts: `Flag`
 
 Wenn die Spielfigur die Flagge berührt, gibt es Konfetti, ein Ton wird abgespielt und das Spiel ist gewonnen.
 
@@ -787,7 +1035,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Flag, function (sprite, otherSpr
 })
 ```
 
-## Schritt 40: Laufbilder vorbereiten
+## Schritt 49: Laufbilder vorbereiten
 
 Jetzt bekommt die Spielfigur eine einfache Laufanimation.
 
@@ -866,7 +1114,7 @@ let frame3 = img`
 `
 ```
 
-## Schritt 41: A-Sprungbild ergänzen
+## Schritt 50: A-Sprungbild ergänzen
 
 Im A-Block kannst du zusätzlich das Bild auf `frame3` setzen.
 
@@ -887,7 +1135,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 ```
 
-## Schritt 42: Spielupdate vorbereiten
+## Schritt 51: Spielupdate vorbereiten
 
 Gehe in die Kategorie **Spiel** und ziehe den Block `||game:wenn Spielupdate||` frei auf die Arbeitsfläche.
 
@@ -898,7 +1146,7 @@ game.onUpdate(function () {
 })
 ```
 
-## Schritt 43: Herunterfallen bedeutet Game Over
+## Schritt 52: Herunterfallen bedeutet Game Over
 
 In den `||game:wenn Spielupdate||`-Block kommt zuerst diese Abfrage:
 
@@ -913,7 +1161,7 @@ game.onUpdate(function () {
 })
 ```
 
-## Schritt 44: Laufanimation nach rechts und links
+## Schritt 53: Laufanimation nach rechts und links
 
 Jetzt ergänzen wir im selben `||game:wenn Spielupdate||`-Block die Laufanimation.
 
@@ -946,7 +1194,7 @@ game.onUpdate(function () {
 })
 ```
 
-## Schritt 45: Alles testen
+## Schritt 54: Alles testen
 
 Starte dein Spiel und teste in dieser Reihenfolge:
 
@@ -966,21 +1214,8 @@ Starte dein Spiel und teste in dieser Reihenfolge:
 - Die Flagge beendet das Spiel mit Gewinn.
 - Wenn die Figur herunterfällt, ist das Spiel verloren.
 
-## Schritt 46: Häufige Fehler beheben
 
-Wenn etwas nicht funktioniert, prüfe diese Punkte:
-
-- Figur fällt durch den Boden: Boden-Kacheln sind nicht als Wand markiert.
-- Figur bewegt sich nach oben/unten mit Pfeiltasten: Beim Bewegungsblock muss `vy = 0` stehen.
-- Figur springt nicht: Im A-Block muss `vy = -220` stehen.
-- Schwerkraft fehlt: Bei der Sprite-Eigenschaft muss `ay = 350` stehen.
-- Kamera folgt nicht: `Kamera folgt Sprite mySprite` fehlt.
-- Münzen oder Herzen fallen herunter: `Geist durch Wände = EIN` fehlt.
-- Gegner bleiben stehen: `vx = 30` fehlt oder `pralle gegen Wand = EIN` fehlt.
-- Schüsse treffen Gegner nicht: Overlap muss `Projectile` mit `Enemy` sein.
-- Spiel endet nicht beim Fallen: Im Spielupdate muss `mySprite y > 230` stehen.
-
-## Schritt 47: Fertig! @showdialog
+## Schritt 55: Fertig! @showdialog
 
 Super gemacht! 🎮
 
