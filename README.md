@@ -986,6 +986,8 @@ In den dann-Teil kommt aus der Kategorie Spiel der Block:
 
 Dann endet das Spiel, sobald deine Figur herunterfällt.
 
+![GIF: Game Over Bedingung einfügen](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/gameover.gif)
+
 ```blocks
 let mySprite: Sprite = null
 game.onUpdate(function () {
