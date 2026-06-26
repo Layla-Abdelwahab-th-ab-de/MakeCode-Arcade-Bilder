@@ -651,10 +651,7 @@ Jetzt sollte der Block ungefähr so aussehen:
 
 `setze coin auf Sprite vom Typ Coin`
 
-Klicke auf das kleine Bild im Block und male eine Münze. Du kannst dich am Vorschlag orientieren.
-
-![Vorschlag Münze](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/muenze.png)
-
+Klicke auf das kleine Bild im Block und male eine Münze. Du kannst dich am Vorschlag orientieren. 
 Danach bekommt die Münze ihre Position. Gehe in **Sprites** und ziehe den Block `||sprites:setze Position von coin auf x y||` unter den Münz-Block.
 
 Stelle ein:
@@ -663,6 +660,8 @@ Stelle ein:
 - `y = y`
 
 Zum Schluss soll die Münze an ihrer Stelle bleiben. Gehe in **Sprites** und füge den Block `||sprites:setze coin Geist durch Wände auf EIN||` hinzu.
+
+![Vorschlag Münze](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/muenze.png)
 
 ```blocks
 let coin: Sprite = null
@@ -688,7 +687,7 @@ function platziereMuenze (x: number, y: number) {
 
 Jetzt soll MakeCode merken, wenn deine Spielfigur eine Münze berührt.
 
-Gehe in die Kategorie **Sprites**. Ziehe einen Overlap-Block frei auf die Arbeitsfläche.
+Gehe in die Kategorie **Sprites**. Ziehe einen **Wenn-Block** frei auf die Arbeitsfläche.
 
 Stelle oben ein:
 
@@ -704,15 +703,16 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Coin, function (sprite, otherSpr
 
 ## Schritt 36: Münze einsammeln
 
-Jetzt füllen wir den Münz-Overlap.
+Jetzt füllen wir den Münz-Wenn-Block.
 
 Wenn die Spielfigur eine Münze berührt, soll die Münze verschwinden, die Punktzahl um 1 steigen und ein Ton abgespielt werden.
 
-Füge in den Overlap-Block ein:
+Füge in den Wenn-Block ein:
 
 - `||sprites:zerstöre otherSprite mit Lächeln Effekt für 200 ms||`
 - `||info:ändere Punktzahl um 1||`
-- Ton `Einschalten` oder `powerUp`
+- Gehe in **Musik** und ziehe den Block
+||music:spiele Ton Einschalten|| oder ||music:spiele Ton powerUp|| darunter.
 
 ```blocks
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Coin, function (sprite, otherSprite) {
@@ -790,11 +790,7 @@ Jetzt sollte der Block ungefähr so aussehen:
 
 `setze heart auf Sprite vom Typ Heart`
 
-Klicke auf das kleine Bild im Block und male ein Herz. Du kannst dich am Vorschlag orientieren.
-
-![Vorschlag Herz](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/herz.png)
-
-Danach bekommt das Herz seine Position. Gehe in **Sprites** und ziehe den Block `||sprites:setze Position von heart auf x y||` unter den Herz-Block.
+Klicke auf das kleine Bild im Block und male ein Herz. Du kannst dich am Vorschlag orientieren. Danach bekommt das Herz seine Position. Gehe in **Sprites** und ziehe den Block `||sprites:setze Position von heart auf x y||` unter den Herz-Block.
 
 Stelle ein:
 
@@ -802,6 +798,8 @@ Stelle ein:
 - `y = y`
 
 Zum Schluss soll das Herz an seiner Stelle bleiben. Gehe in **Sprites** und füge den Block `||sprites:setze heart Geist durch Wände auf EIN||` hinzu.
+
+![Vorschlag Herz](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/herz.png)
 
 ```blocks
 let heart: Sprite = null
@@ -841,15 +839,18 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite, otherSp
 
 ## Schritt 41: Herz gibt Leben zurück
 
-Jetzt füllen wir den Herz-Overlap.
+Jetzt füllen wir den Herz-Wenn-Block.
 
 Für den Anfang machen wir es einfach: Wenn die Spielfigur ein Herz berührt, bekommt sie ein Leben zurück. Das Herz verschwindet danach.
 
-Füge in den Overlap-Block ein:
+Füge in den Wenn-Block ein:
 
 - `||sprites:zerstöre otherSprite mit Herzen Effekt für 200 ms||`
 - `||info:ändere Leben um 1||`
-- Ton `Einschalten` oder `powerUp`
+- Gehe in **Musik** und ziehe den Block
+||music:spiele Ton Einschalten|| oder ||music:spiele Ton powerUp|| darunter.
+
+So merkt das Spiel: Herz berührt → Herz verschwindet → Leben steigt → Ton wird abgespielt.
 
 ```blocks
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite, otherSprite) {
@@ -907,15 +908,14 @@ Achte wieder auf zwei Dropdown-Menüs:
 2. Klicke rechts auf `Player`. Falls `Flag` noch nicht existiert, wähle **Hinzufügen** oder **Add a new kind** und schreibe genau `Flag`. Wähle danach `Flag` aus.
 
 Klicke auf das kleine Bild und male eine Flagge. Du kannst dich am Vorschlag orientieren.
-
-![Vorschlag Flagge](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/flagge.png)
-
 Setze danach die Position auf:
 
 - `x = 768`
 - `y = 80`
 
 Setze außerdem **Geist durch Wände = EIN**, damit die Flagge nicht herunterfällt oder an Kacheln hängen bleibt.
+
+![Vorschlag Flagge](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/flagge.png)
 
 ```blocks
 let flag = sprites.create(img`
@@ -944,14 +944,9 @@ flag.setFlag(SpriteFlag.GhostThroughWalls, true)
 
 Jetzt soll MakeCode merken, wenn deine Spielfigur die Flagge berührt.
 
-Gehe in die Kategorie **Sprites**. Ziehe einen Overlap-Block frei auf die Arbeitsfläche.
-
-Stelle oben ein:
-
-- links: `Player`
-- rechts: `Flag`
-
-Wenn die Spielfigur die Flagge berührt, gibt es Konfetti, ein Ton wird abgespielt und das Spiel ist gewonnen.
+Gehe in die Kategorie **Sprites**. Ziehe einen **Wenn-Block** frei auf die Arbeitsfläche.
+Hier bist du gefragt! Kriegst du diesen Block allein zusammengebaut? Tipp: Orientiere dich an den **Wenn-Blöcken** für Herzen, Münzen oder Gegnern
+Wenn die Spielfigur die Flagge berührt, gibt es Konfetti, ein Ton wird abgespielt und das Spiel ist gewonnen. Die Lösung findest du ansonsten in der Glühbirne.
 
 ```blocks
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Flag, function (sprite, otherSprite) {
@@ -974,9 +969,22 @@ game.onUpdate(function () {
 
 ## Schritt 47: Herunterfallen bedeutet Game Over
 
-In den `||game:wenn Spielupdate||`-Block kommt diese Abfrage:
+Jetzt füllen wir den Block ||game:wenn Spielupdate||.
 
-Wenn die y-Position der Figur größer als `230` ist, ist sie aus dem Level gefallen. Dann ist das Spiel verloren.
+Gehe in die Kategorie Logik und füge eine ||logic:wenn dann||-Bedingung in den Spielupdate-Block ein.
+
+Die Bedingung lautet:
+
+mySprite y > 230
+
+Das bedeutet: Wenn die y-Position deiner Spielfigur größer als 230 ist, ist sie zu weit nach unten gefallen. Dann hat sie das Level verlassen.
+Die Bedingung findest du bei **Sprites** als mySprite x und wählst **y** statt x aus. 
+
+In den dann-Teil kommt aus der Kategorie Spiel der Block:
+
+||game:Spielende VERLIEREN||
+
+Dann endet das Spiel, sobald deine Figur herunterfällt.
 
 ```blocks
 let mySprite: Sprite = null
