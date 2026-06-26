@@ -1,20 +1,21 @@
 {
-  "name": "makecode-arcade-bilder",
-  "version": "0.0.1",
-  "description": "Jump'n'Run Tutorial für MakeCode Arcade",
-  "dependencies": {
-    "device": "*"
-  },
-  "files": [
-    "main.ts",
-    "README.md"
-  ],
-  "testFiles": [],
-  "targetVersions": {
-    "targetId": "arcade"
-  },
-  "supportedTargets": [
-    "arcade"
-  ],
-  "preferredEditor": "blocksprj"
+    "name": "makecode-arcade-bilder",
+    "version": "0.0.1",
+    "description": "Jump'n'Run Tutorial für MakeCode Arcade",
+    "dependencies": {
+        "device": "*"
+    },
+    "files": [
+        "main.ts",
+        "README.md"
+    ],
+    "testFiles": [],
+    "targetVersions": {
+        "targetId": "arcade",
+        "target": "4.0.14"
+    },
+    "supportedTargets": [
+        "arcade"
+    ],
+    "preferredEditor": "tsprj"
 }
