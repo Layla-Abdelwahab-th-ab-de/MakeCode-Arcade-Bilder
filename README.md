@@ -10,7 +10,7 @@ Du baust dein Spiel Schritt für Schritt auf: zuerst Hintergrund und Spielfigur,
 
 Wichtig: Wenn du in einem Schritt eine **Glühbirne** siehst, kannst du darauf klicken. Dort findest du zusätzliche Hilfe mit Bildern.
 
-Klicke auf **Weiter**, um zu starten.
+Klicke auf **OK**, um zu starten.
 
 ## Schritt 1: Editor
 
@@ -22,7 +22,9 @@ Auf der Arbeitsfläche gibt es den grünen Block `||loops:beim Start||`.
 
 Alles, was in diesen Block kommt, passiert direkt beim Start des Spiels. Wir füllen diesen nach und nach von oben nach unten.
 
-Wichtig: Erstelle keinen zweiten `beim Start`-Block. Wenn ein Schritt sagt, dass ein Block in `beim Start` gehört, ziehst du ihn unten in den zuletzt eingefügten Block
+Wichtig: Erstelle keinen zweiten `beim Start`-Block. Wenn ein Schritt sagt, dass ein Block in `beim Start` gehört, ziehst du ihn unten in den zuletzt eingefügten Block.
+
+**Blöcke umsortieren:** Greife einen Block am farbigen Rand und ziehe ihn zuerst vollständig aus dem großen Block heraus. Bewege ihn dann an die neue Stelle. Sobald eine graue Einfügemarkierung erscheint, kannst du ihn loslassen. Kleine Wertblöcke wie Zahlen, `x`, `y` oder Bedingungen können nur in passende Lücken eingesetzt werden und nicht frei zwischen großen Anweisungsblöcken stehen.
 
 ```blocks
 // Alles im Block "beim Start" passiert beim Start des Spiels.
@@ -93,7 +95,18 @@ Stelle ein:
 - `vx = 100`
 - `vy = 0`
 
-`vx` ist die Geschwindigkeit nach links und rechts. `vy = 0` bedeutet: Die Pfeiltasten sollen die Figur nicht nach oben oder unten bewegen. Springen bauen wir später mit der A-Taste ein.
+`vx` ist die Geschwindigkeit auf der waagerechten x-Achse:
+
+- eine positive Zahl bewegt die Figur nach rechts,
+- eine negative Zahl bewegt sie nach links.
+
+`vy` ist die Geschwindigkeit auf der senkrechten y-Achse:
+
+- `vy = 0`: keine Bewegung nach oben oder unten,
+- eine negative Zahl bewegt die Figur nach oben,
+- eine positive Zahl bewegt sie nach unten.
+
+Hier bleibt `vy` auf `0`, weil die Pfeiltasten die Figur nur nach links und rechts bewegen sollen. Den Sprung bauen wir später mit der A-Taste ein.
 
 ```blocks
 let mySprite: Sprite = null
@@ -177,39 +190,7 @@ Wenn dein erster Boden fertig ist, klicke im Tilemap-Editor auf **Fertig** oder 
 tiles.setCurrentTilemap(tilemap`Level1`)
 ```
 
-## Schritt 12: Schwerkraft einschalten
-
-Jetzt soll die Figur nach unten fallen und auf dem Boden stehen bleiben. Dafür bekommt sie eine **Beschleunigung nach unten**.
-
-Gehe links in die Kategorie **Sprites**. Suche dort den Block, der so aussieht:
-
-`setze mySprite x auf 0`
-
-Der Block kann am Anfang auch eine andere Eigenschaft anzeigen, zum Beispiel `x`, `y`, `vx`, `vy` etc.. Diese Eigenschaft kann man über das Dropdown-Menü ändern.
-
-Ziehe diesen Block in den vorhandenen `||loops:beim Start||`-Block, unter deine bisherigen Start-Blöcke. Erstelle keinen neuen `||loops:beim Start||`-Block.
-
-Klicke im Block auf das Dropdown-Menü und wähle dort:
-
-`ay (Beschleunigung y)`
-
-Stelle danach den Zahlenwert auf:
-
-`350`
-
-Dann sieht der Block so aus:
-
-`setze mySprite ay (Beschleunigung y) auf 350`
-
-`ay` ist die Schwerkraft in unserem Spiel. Eine positive Zahl zieht die Figur nach unten.
-
-```blocks
-let mySprite: Sprite = null
-// @highlight
-mySprite.ay = 350
-```
-
-## Schritt 13: Spielfigur an den Start setzen
+## Schritt 12: Spielfigur an den Start setzen
 
 Jetzt legen wir fest, wo die Figur am Anfang auf dem Bildschirm erscheint.
 
@@ -228,59 +209,7 @@ let mySprite: Sprite = null
 mySprite.setPosition(20, 100)
 ```
 
-## Schritt 14: Testen: Boden und Schwerkraft
-
-Starte das Spiel kurz mit dem Play-Knopf.
-
-Prüfe:
-
-- Fällt die Figur nach unten?
-- Bleibt sie auf dem Boden stehen?
-- Kannst du nach links und rechts laufen?
-
-Wenn die Figur durch den Boden fällt, ist fast immer die Wand-Markierung das Problem. Öffne die Tilemap nochmal und markiere den Boden als Wand.
-
-## Schritt 15: A-Taste vorbereiten
-
-Jetzt bauen wir den Sprung.
-
-Gehe in die Kategorie **Controller**. Ziehe den Block `||controller:wenn A Knopf gedrückt||` frei auf die Arbeitsfläche.
-
-Dieser Block kommt **nicht** in `||loops:beim Start||`. Er ist ein eigener Ereignis-Block. Er wird immer dann ausgeführt, wenn die A-Taste gedrückt wird.
-
-```blocks
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-})
-```
-
-## Schritt 16: Nur springen, wenn die Figur am Boden ist
-
-In den A-Block kommt eine Bedingung.
-
-Die Figur darf nur springen, wenn `vy = 0` ist. Das bedeutet: Sie bewegt sich gerade nicht nach oben oder unten.
-
-Wenn die Bedingung stimmt, setzen wir `vy` auf `-220`. Eine negative y-Geschwindigkeit bewegt die Figur nach oben.
-
-```blocks
-let mySprite: Sprite = null
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (mySprite.vy == 0) {
-        mySprite.vy = -220
-    }
-})
-```
-
-## Schritt 17: Testen: Springen mit A
-
-Starte das Spiel und drücke die A-Taste.
-
-Prüfe:
-
-- Springt die Figur nach oben?
-- Fällt sie danach wieder auf den Boden?
-- Kann sie unendlich oft in der Luft springen? Die zuvor programmierte Schwerkraft sollte das verhindern.
-
-## Schritt 18: Spielfigur darf den Bildschirm verlassen
+## Schritt 13: Spielfigur darf den Bildschirm verlassen
 
 Unser Level wird später breiter als der sichtbare Bildschirm.
 
@@ -294,19 +223,126 @@ let mySprite: Sprite = null
 mySprite.setStayInScreen(false)
 ```
 
-## Schritt 19: Kamera folgt der Spielfigur
+## Schritt 14: Kamera folgt der Spielfigur
 
-Damit man die Figur immer sieht, soll die Kamera ihr folgen.
+Damit du deine Figur auch in dem langen Level immer sehen kannst, soll die Kamera ihr folgen.
 
 Gehe in die Kategorie **Szene**. Ziehe den Block `||scene:Kamera folgt Sprite||` in `||loops:beim Start||`.
 
-Wähle `mySprite` aus. Dann bewegt sich der Bildausschnitt mit deiner Figur mit.
+Wähle im Block `mySprite` aus. Der sichtbare Bildausschnitt bewegt sich nun mit deiner Spielfigur. Das ist wichtig, bevor wir die Schwerkraft einschalten: Falls die Figur fällt oder weiter nach rechts läuft, verschwindet sie nicht sofort aus deinem Blickfeld.
 
 ```blocks
 let mySprite: Sprite = null
 // @highlight
 scene.cameraFollowSprite(mySprite)
 ```
+
+## Schritt 15: Schwerkraft einschalten
+
+Jetzt soll die Figur nach unten fallen und auf dem Boden stehen bleiben. Dafür bekommt sie eine **Beschleunigung nach unten**.
+
+Gehe links in die Kategorie **Sprites**. Suche dort den Block, der ungefähr so aussieht:
+
+`setze mySprite x auf 0`
+
+Der Block kann am Anfang auch eine andere Eigenschaft anzeigen, zum Beispiel `x`, `y`, `vx` oder `vy`. Die Eigenschaft kannst du über das Dropdown-Menü ändern.
+
+Ziehe diesen Block in den vorhandenen `||loops:beim Start||`-Block unter deine bisherigen Start-Blöcke. Erstelle keinen neuen `||loops:beim Start||`-Block.
+
+Klicke im Block auf das Dropdown-Menü und wähle:
+
+`ay (Beschleunigung y)`
+
+Stelle den Zahlenwert auf:
+
+`350`
+
+Dann sieht der Block so aus:
+
+`setze mySprite ay (Beschleunigung y) auf 350`
+
+`vy` beschreibt, wie schnell sich die Figur gerade nach oben oder unten bewegt. `ay` verändert diese Geschwindigkeit immer weiter. Mit `ay = 350` wird die Figur ständig nach unten beschleunigt. Dadurch entsteht die Schwerkraft.
+
+```blocks
+let mySprite: Sprite = null
+// @highlight
+mySprite.ay = 350
+```
+
+## Schritt 16: Testen: Boden, Kamera und Schwerkraft
+
+Starte das Spiel kurz mit dem Play-Knopf.
+
+Prüfe:
+
+- Erscheint die Figur an ihrer Startposition?
+- Fällt sie nach unten?
+- Bleibt sie auf dem Boden stehen?
+- Kannst du nach links und rechts laufen?
+- Folgt die Kamera der Figur, wenn sie sich weiter nach rechts bewegt oder herunterfällt?
+
+Wenn die Figur durch den Boden fällt, ist fast immer die Wand-Markierung das Problem. Öffne die Tilemap erneut und markiere den Boden als Wand.
+
+Wenn die Figur aus dem sichtbaren Bereich verschwindet, kontrolliere die beiden vorherigen Schritte:
+
+- `bleibe auf dem Display` muss auf **AUS** stehen,
+- die Kamera muss `mySprite` folgen.
+
+## Schritt 17: A-Taste vorbereiten
+
+Jetzt bauen wir den Sprung.
+
+Gehe in die Kategorie **Controller**. Ziehe den Block `||controller:wenn A Knopf gedrückt||` frei auf die Arbeitsfläche.
+
+Dieser Block kommt **nicht** in `||loops:beim Start||`. Er ist ein eigener Ereignis-Block. Er wird immer dann ausgeführt, wenn die A-Taste gedrückt wird.
+
+```blocks
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+})
+```
+
+## Schritt 18: Nur springen, wenn die Figur am Boden ist
+
+Jetzt kommt eine Bedingung in den A-Knopf-Block. Die Spielfigur soll nur springen, wenn sie gerade auf dem Boden steht.
+
+1. Gehe in die Kategorie **Logik**.
+2. Ziehe den Block `||logic:wenn wahr dann||` in den vorhandenen A-Knopf-Block.
+3. Nimm aus **Logik** den Vergleichsblock `0 = 0` und setze ihn an die Stelle von `wahr`.
+4. Gehe in die Kategorie **Sprites** und suche den Eigenschaftsblock, der ungefähr wie `mySprite x` aussieht.
+5. Wähle im Dropdown-Menü dieses Blocks die Eigenschaft `vy (Geschwindigkeit y)` aus.
+6. Ziehe den Block `mySprite vy` auf die linke Seite des Vergleichs.
+7. Auf der rechten Seite bleibt die Zahl `0`.
+
+Die fertige Bedingung lautet:
+
+`mySprite vy = 0`
+
+Das bedeutet: Die Spielfigur bewegt sich gerade weder nach oben noch nach unten.
+
+Ziehe nun in den `dann`-Bereich einen Eigenschaftsblock für `mySprite`. Wähle darin `vy` aus und stelle den Wert auf `-220`.
+
+Eine negative y-Geschwindigkeit bewegt die Figur nach oben. Die Schwerkraft zieht sie danach wieder nach unten.
+
+```blocks
+let mySprite: Sprite = null
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (mySprite.vy == 0) {
+        mySprite.vy = -220
+    }
+})
+```
+
+## Schritt 19: Testen: Springen mit A
+
+Starte das Spiel und drücke die A-Taste.
+
+Prüfe:
+
+- Springt die Figur nach oben?
+- Fällt sie danach wieder auf den Boden?
+- Kann sie in der Luft ein zweites Mal springen?
+
+Die Figur sollte nur springen, wenn `vy = 0` ist. Wenn sie in der Luft mehrfach springen kann, kontrolliere die Bedingung im A-Knopf-Block.
 
 ## Schritt 20: Leben und Punkte einstellen
 
@@ -341,18 +377,21 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
 
 ## Schritt 22: Projektil malen und abschießen
 
-Gehe in die Kategorie **Sprites**. Ziehe in den B-Block den Block `||sprites:setze projectile auf Projektil von mySprite||`.
+Jetzt füllst du den B-Knopf-Block.
 
-Klicke auf das Bild und male ein kleines Feuer-Projektil. 
+1. Gehe in die Kategorie **Sprites**.
+2. Ziehe den Block `||sprites:setze projectile auf Projektil von mySprite||` in den vorhandenen B-Knopf-Block.
+3. Achte darauf, dass im Block `mySprite` ausgewählt ist. Das Projektil soll direkt bei deiner Spielfigur entstehen.
+4. Klicke auf das kleine Bild im Projektilblock. Male ein kleines Projektil oder wähle ein Bild aus der Galerie.
+5. Stelle im Projektilblock `vx = 150` ein.
+6. Stelle `vy = 0` ein.
 
-Stelle ein:
+`projectile` ist der Name der Variable, in der der erzeugte Schuss gespeichert wird.
 
-- `vx = 150`
-- `vy = 0`
+`vx = 150` bedeutet: Das Projektil fliegt nach rechts.  
+`vy = 0` bedeutet: Es fliegt nicht nach oben oder unten.
 
-`vx = 150` bedeutet: Das Projektil fliegt nach rechts. `vy = 0` bedeutet: Es fliegt nicht nach oben oder unten. Wir wollen einen geraden Schuss.
-
-Danach spielst du einen Ton ab.
+Danach kannst du unter den Projektilblock einen kurzen Ton aus der Kategorie **Musik** setzen. Der genaue Ton ist nicht wichtig. Je nach MakeCode-Version können die Töne unterschiedlich heißen.
 
 ```blocks
 let mySprite: Sprite = null
@@ -384,21 +423,34 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
 
 Starte das Spiel und drücke die B-Taste.
 
-Prüfe:
+Prüfe zuerst:
 
-- Erscheint ein Projektil bei deiner Figur?
+- Erscheint ein Projektil direkt bei deiner Figur?
 - Fliegt es nach rechts?
-- Kommt ein Ton?
+- Fliegt es geradeaus?
 
-Wenn das Projektil nach oben oder unten fliegt, prüfe `vy = 0`.
+Wenn das Projektil nach oben oder unten fliegt, kontrolliere `vy = 0`.
+
+**Ton prüfen:** Am Simulator gibt es ein Lautsprecher-Symbol. Wenn es durchgestrichen ist, klicke darauf. Prüfe außerdem die Lautstärke deines Computers und ob dein Browser Ton abspielen darf.
+
+Wenn du trotzdem keinen Ton hörst, kannst du weitermachen. Für das Spiel ist zunächst wichtiger, dass das Projektil richtig erscheint und fliegt.
 
 ## Schritt 24: Level erweitern
 
 Jetzt kannst du deine Tilemap erweitern.
 
-Male erstmal nur **1 bis 2 Plattformen** über dem Boden und markiere jede Plattform wieder als **Wand**. Teste danach direkt. Bedenke, dass dein Sprite nur begrenzt hochspringen kann. Male die Plattformen also nicht zu hoch!
+Öffne den Tilemap-Editor erneut. Für den Anfang baust du nur **eine oder zwei Plattformen**:
 
-Du kannst auch **kleine Hindernisse auf den Boden** malen, über die man springen muss. Oder du baust **niedrige Blöcke als Zwischenstufe**, damit deine Figur höhere Plattformen erreichen kann. Werde kreativ, aber **teste immer wieder**, ob dein Level spielbar bleibt.
+1. Wähle in der Kachelgalerie eine Kachel aus, zum Beispiel Gras, Erde oder Stein.
+2. Wähle das Stift-Werkzeug.
+3. Male mehrere Kacheln nebeneinander über dem Boden. Diese Reihe aus Kacheln ist deine Plattform.
+4. Aktiviere danach wieder **Wände anzeigen**.
+5. Wähle das Wand-Werkzeug und markiere jede Kachel der neuen Plattform als Wand.
+6. Schließe den Tilemap-Editor und teste sofort, ob die Figur auf die Plattform springen und darauf stehen kann.
+
+Es ist also richtig, eine Kachel aus der Galerie auszuwählen. Aus dieser Kachel malst du anschließend selbst die Form deiner Plattform.
+
+Bedenke, dass deine Spielfigur nur begrenzt hochspringen kann. Setze die Plattformen deshalb nicht zu hoch. Du kannst auch kleine Hindernisse auf den Boden malen oder niedrige Blöcke als Zwischenstufe bauen.
 
 Wenn du schon schneller bist, kannst du die vollständige Welt ungefähr nach der Vorlage in der Glühbirne malen.
 
@@ -412,18 +464,18 @@ So sieht dieselbe Welt aus, wenn die Wände angezeigt werden:
 
 Jetzt bauen wir einen Helfer-Block für Gegner.
 
-Gehe links auf **Fortgeschritten**. Öffne ||functions:Funktionen|| und klicke auf **erstelle eine Funktion**.
+Gehe links auf **Fortgeschritten**. Öffne **Funktionen** und klicke auf **Erstelle eine Funktion**.
 
-Ersetze das Feld **macheEtwas** mit dem Namen:
+Ersetze den Namen `macheEtwas` durch:
 
 `platziereGegner`
 
-Füge zwei Zahlen-Parameter hinzu - klicke einfach 2x auf das Taschenrechnersymbol:
+Füge zwei Zahlen-Parameter hinzu. Klicke dafür zweimal auf das Taschenrechnersymbol:
 
-- ersetze num mit **x**
-- ersetze num2 mit **y**
+- Ersetze `num` durch `x`.
+- Ersetze `num2` durch `y`.
 
-Diese Funktion platzierst du einfach auf die Arbeitsfläche.
+Platziere die fertige Funktion frei auf der Arbeitsfläche. Sie gehört nicht in `beim Start`.
 
 ```blocks
 function platziereGegner (x: number, y: number) {
@@ -432,45 +484,45 @@ function platziereGegner (x: number, y: number) {
 
 ## Schritt 26: Gegner malen und bewegen
 
-Jetzt füllen wir die Funktion platziereGegner.
+Jetzt füllen wir die Funktion `platziereGegner`.
 
-Gehe in die Kategorie Sprites. Ziehe den Block ||sprites:setze mySprite auf Sprite vom Typ Player|| in die Funktion platziereGegner.
+Gehe in die Kategorie **Sprites**. Ziehe den Block `setze mySprite auf Sprite vom Typ Player` in die Funktion `platziereGegner`.
 
-Achte jetzt auf zwei Dropdown-Menüs im Block:
+Achte auf die beiden Dropdown-Menüs im Block:
 
-Klicke links auf mySprite und wähle Neue Variable.... Nenne die neue Variable genau e.
-Klicke rechts auf Player und wähle Enemy aus.
+1. Klicke links auf `mySprite` und wähle **Neue Variable...**. Nenne die neue Variable genau `e`.
+2. Klicke rechts auf `Player` und wähle `Enemy` aus.
 
-Wichtig: Wähle bei mySprite nicht „Variable umbenennen...“. Sonst würdest du deine Spielfigur umbenennen. Für den Gegner brauchst du eine neue Variable.
+Wichtig: Wähle bei `mySprite` nicht **Variable umbenennen...**. Sonst würdest du deine Spielfigur umbenennen. Für den Gegner brauchst du eine neue Variable.
 
 Jetzt sollte der Block ungefähr so aussehen:
 
-setze e auf Sprite vom Typ Enemy
+`setze e auf Sprite vom Typ Enemy`
 
 Klicke auf das kleine Bild im Block und male deinen Gegner. Du kannst dich am Vorschlag orientieren.
 
-Danach bekommt der Gegner seine Position. Gehe wieder in Sprites und ziehe den Block ||sprites:setze Position von e auf x y|| unter den Gegner-Block.
+Danach bekommt der Gegner seine Position. Ziehe aus **Sprites** den Block `setze Position von e auf x y` unter den Gegner-Block.
 
-Stelle ein:
+In den beiden Zahlenfeldern darfst du die Buchstaben `x` und `y` **nicht eintippen**. Oben im Kopf deiner Funktion siehst du die kleinen Parameterblöcke `x` und `y`:
 
-x = x
-y = y
+- Ziehe den Parameterblock `x` in das erste Zahlenfeld.
+- Ziehe den Parameterblock `y` in das zweite Zahlenfeld.
 
-Das ist richtig so: Die rechten x und y kommen aus deiner Funktion. Dadurch kannst du später beim Aufruf der Funktion entscheiden, wo der Gegner erscheinen soll.
+Dadurch kannst du später beim Aufruf der Funktion festlegen, an welcher Stelle der Gegner erscheint.
 
-Jetzt bekommt der Gegner Schwerkraft. Suche in Sprites den Eigenschaftsblock, der ungefähr so aussieht:
+Jetzt bekommt der Gegner Schwerkraft. Suche in **Sprites** den Eigenschaftsblock, der ungefähr so aussieht:
 
-setze e x auf 0
+`setze e x auf 0`
 
-Wähle im Dropdown-Menü die Eigenschaft ay (Beschleunigung y) aus und stelle den Wert auf 350.
+Wähle im Dropdown-Menü `ay (Beschleunigung y)` und stelle den Wert auf `350`.
 
-Nimm danach nochmal denselben Eigenschaftsblock. Wähle diesmal vx (Geschwindigkeit x) aus und stelle den Wert auf 30.
+Nimm danach denselben Eigenschaftsblock noch einmal. Wähle diesmal `vx (Geschwindigkeit x)` und stelle den Wert auf `30`.
 
-Zum Schluss soll der Gegner an Wänden umdrehen. Gehe in Sprites und nimm den Block ||sprites:setze e pralle gegen Wand auf EIN||.
-
-Der Gegner fällt jetzt auf den Boden, läuft los und prallt an Wänden oder Plattformen ab.
+Zum Schluss soll der Gegner an Wänden umdrehen. Füge aus **Sprites** den Block `setze e pralle gegen Wand auf EIN` hinzu.
 
 ![Vorschlag Enemy](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/enemy.png)
+
+Wichtig: Nach diesem Schritt siehst du im Spiel noch keinen Gegner. Du hast bisher nur festgelegt, **wie** ein Gegner erstellt und eingestellt wird. Im nächsten Schritt rufst du die Funktion auf. Erst dann erscheint der Gegner im Spiel.
 
 ```blocks
 let e: Sprite = null
@@ -504,7 +556,7 @@ function platziereGegner (x: number, y: number) {
 
 Jetzt benutzt du deine Funktion.
 
-Gehe zu **Funktionen** und ziehe den Block `||functions:Aufruf platziereGegner||` in `||loops:beim Start||`.
+Gehe zu **Funktionen** und ziehe den Block `Aufruf platziereGegner` in `beim Start`.
 
 Trage zum Test ein:
 
@@ -515,15 +567,17 @@ Trage zum Test ein:
 platziereGegner(128, 96)
 ```
 
-Wenn du später weitere Gegner möchtest, setzt du denselben Funktionsaufruf nochmal darunter und änderst nur die Positionen.
+Starte danach das Spiel. Jetzt sollte der Gegner an der angegebenen Position erscheinen, auf den Boden fallen, loslaufen und an Wänden oder Plattformen abprallen.
+
+Wenn du später weitere Gegner möchtest, setzt du denselben Funktionsaufruf erneut darunter und änderst nur die Positionen.
 
 ## Schritt 28: Schuss trifft Gegner erkennen
 
 Jetzt soll MakeCode merken, wenn ein Projektil einen Gegner berührt.
 
-Gehe in die Kategorie **Sprites**. Ziehe den Block `||sprites:wenn Sprite der Art Player überlappt otherSprite der Art Player||` frei auf die Arbeitsfläche.
+Gehe in die Kategorie **Sprites**. Ziehe den Block `wenn Sprite der Art Player überlappt otherSprite der Art Player` frei auf die Arbeitsfläche.
 
-Dieser Block kommt **nicht** in `||loops:beim Start||`. Er ist ein eigener Ereignis-Block.
+Dieser Block kommt **nicht** in `beim Start`. Er ist ein eigener Ereignis-Block.
 
 Ersetze die Player-Arten wie folgt ein:
 
@@ -541,7 +595,7 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, oth
 
 Jetzt füllen wir den **Wenn-Block** von eben.
 
-Gehe in die Kategorie **Sprites**. Ziehe in den Wenn-Block den Block `||sprites:zerstöre mySprite||`. Ersetze **mySprite** mit **otherSprite**. Klicke auf das **Plus** Symbol und füge hinzu **mit Feuer Effekt für 300ms**
+Gehe in die Kategorie **Sprites**. Ziehe in den Wenn-Block den Block `zerstöre mySprite`. Ersetze **mySprite** mit **otherSprite**. Klicke auf das **Plus** Symbol und füge hinzu **mit Feuer Effekt für 300ms**
 
 Damit verschwindet der Gegner mit einem Feuer-Effekt.
 
@@ -555,11 +609,11 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, oth
 
 Damit dein Gegner vollständig verschwindet und du bei jedem besiegten Gegner Punkte gewinnst, müssen diese Blöcke noch im **Wenn-Block** ergänzt werden:
 
-Gehe in die Kategorie **Sprites** und füge unter dem Feuer-Effekt den Block `||sprites:zerstöre sprite||` ein.
+Gehe in die Kategorie **Sprites** und füge unter dem Feuer-Effekt den Block `zerstöre sprite` ein.
 
-Danach gehst du in **Info** und fügst `||info:ändere Punktzahl um 2||` ein.
+Danach gehst du in **Info** und fügst `ändere Punktzahl um 2` ein.
 
-Zum Schluss gehst du in **Musik** und spielst einen passenden Ton ab, zum Beispiel `zapped`.
+Zum Schluss gehst du in **Musik** und fügst einen passenden kurzen Ton ein. Der genaue Name kann je nach MakeCode-Version anders sein. Im Beispiel wird `zapped` verwendet.
 
 ```blocks
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
@@ -574,22 +628,27 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, oth
 
 Jetzt soll die Spielfigur ein Leben verlieren, wenn sie einen Gegner berührt.
 
-Gehe in die Kategorie **Sprites**. Ziehe wieder den Block `||sprites:wenn Sprite der Art Player überlappt otherSprite der Art Player||` frei auf die Arbeitsfläche.
+Gehe in die Kategorie **Sprites**. Ziehe den Ereignisblock `wenn Sprite der Art Player überlappt otherSprite der Art Player` frei auf die Arbeitsfläche.
 
-Dieser Block kommt **nicht** in `||loops:beim Start||`. Er ist ein eigener Ereignis-Block.
+Dieser Block kommt nicht in `beim Start`. Er ist ein eigener Ereignisblock.
 
 Stelle oben ein:
 
 - links: `Player`
 - rechts: `Enemy`
 
-Füge in den Block diese Dinge ein:
+In diesem Ereignisblock bedeutet:
 
-- `||sprites:starte Feuer Effekt an sprite für 500 ms||`
-- `||info:ändere Leben um -1||`
-- `||loops:pausiere 500 ms||`
+- `sprite` ist die Spielfigur,
+- `otherSprite` ist der Gegner.
 
-Damit verliert deine Spielfigur ein Leben, wenn sie einen Gegner berührt.
+Füge die folgenden drei Blöcke in dieser Reihenfolge ein:
+
+1. Aus **Sprites**: `starte Feuer-Effekt an sprite für 500 ms`
+2. Aus **Info**: `ändere Leben um -1`
+3. Aus **Schleifen**: `pausiere 500 ms`
+
+Die kurze Pause verhindert, dass die Figur in einem einzigen Moment sofort sehr viele Leben verliert.
 
 ```blocks
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
@@ -616,7 +675,7 @@ Wenn der Gegner herunterfällt, fehlt unter ihm Boden oder die Plattform ist nic
 
 Jetzt bauen wir einen Helfer-Block für Münzen.
 
-Gehe links auf **Fortgeschritten**. Öffne `||functions:Funktionen||` und klicke auf **erstelle eine Funktion**.
+Gehe links auf **Fortgeschritten**. Öffne `Funktionen` und klicke auf **erstelle eine Funktion**.
 
 Ersetze das Feld **macheEtwas** mit dem Namen:
 
@@ -638,28 +697,34 @@ function platziereMuenze (x: number, y: number) {
 
 Jetzt füllen wir die Funktion `platziereMuenze`.
 
-Gehe in die Kategorie **Sprites**. Ziehe den Block `||sprites:setze mySprite auf Sprite vom Typ Player||` in die Funktion `platziereMuenze`.
+Gehe in die Kategorie **Sprites**. Ziehe den Block `setze mySprite auf Sprite vom Typ Player` in die Funktion `platziereMuenze`.
 
-Achte wieder auf zwei Dropdown-Menüs im Block:
+Achte wieder auf die beiden Dropdown-Menüs:
 
 1. Klicke links auf `mySprite` und wähle **Neue Variable...**. Nenne die neue Variable genau `coin`.
 2. Klicke rechts auf `Player`. Falls `Coin` noch nicht existiert, wähle **Hinzufügen** oder **Add a new kind** und schreibe genau `Coin`. Wähle danach `Coin` aus.
 
-Wichtig: Wähle links bei `mySprite` **nicht** „Variable umbenennen...“. Für die Münze brauchst du eine neue Variable.
+Achte auf die Groß- und Kleinschreibung:
+
+- `coin` mit kleinem `c` ist der Name der Variable für eine einzelne Münze.
+- `Coin` mit großem `C` ist die Sprite-Art für alle Münzen.
+
+Wichtig: Wähle links bei `mySprite` nicht **Variable umbenennen...**. Für die Münze brauchst du eine neue Variable.
 
 Jetzt sollte der Block ungefähr so aussehen:
 
 `setze coin auf Sprite vom Typ Coin`
 
-Klicke auf das kleine Bild im Block und male eine Münze. Du kannst dich am Vorschlag orientieren. 
-Danach bekommt die Münze ihre Position. Gehe in **Sprites** und ziehe den Block `||sprites:setze Position von coin auf x y||` unter den Münz-Block.
+Klicke auf das kleine Bild und male eine Münze. Du kannst dich am Vorschlag orientieren.
 
-Stelle ein:
+Ziehe danach aus **Sprites** den Block `setze Position von coin auf x y` unter den Münz-Block.
 
-- `x = x`
-- `y = y`
+Auch hier werden `x` und `y` nicht eingetippt:
 
-Zum Schluss soll die Münze an ihrer Stelle bleiben. Gehe in **Sprites** und füge den Block `||sprites:setze coin Geist durch Wände auf EIN||` hinzu.
+- Ziehe den Parameterblock `x` aus dem Funktionskopf in das erste Zahlenfeld.
+- Ziehe den Parameterblock `y` in das zweite Zahlenfeld.
+
+Zum Schluss soll die Münze an ihrer Stelle bleiben. Füge aus **Sprites** den Block `setze coin Geist durch Wände auf EIN` hinzu.
 
 ![Vorschlag Münze](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/muenze.png)
 
@@ -703,16 +768,19 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Coin, function (sprite, otherSpr
 
 ## Schritt 36: Münze einsammeln
 
-Jetzt füllen wir den Münz-Wenn-Block.
+Jetzt füllen wir den Münz-Ereignisblock.
 
-Wenn die Spielfigur eine Münze berührt, soll die Münze verschwinden, die Punktzahl um 1 steigen und ein Ton abgespielt werden.
+Wenn die Spielfigur eine Münze berührt, soll die Münze verschwinden, die Punktzahl um `1` steigen und ein kurzer Ton abgespielt werden.
 
-Füge in den Wenn-Block ein:
+Füge diese Blöcke ein:
 
-- `||sprites:zerstöre otherSprite mit Lächeln Effekt für 200 ms||`
-- `||info:ändere Punktzahl um 1||`
-- Gehe in **Musik** und ziehe den Block
-||music:spiele Ton Einschalten|| oder ||music:spiele Ton powerUp|| darunter.
+1. Aus **Sprites**: `zerstöre otherSprite mit Lächeln-Effekt für 200 ms`
+2. Aus **Info**: `ändere Punktzahl um 1`
+3. Aus **Musik**: einen beliebigen kurzen Ton
+
+Der Ton muss nicht `powerUp` heißen. Die Namen können je nach MakeCode-Version oder Sprache unterschiedlich sein. Nimm einfach einen kurzen Ton, den du in der Kategorie **Musik** findest.
+
+Im Beispielcode wird `powerUp` verwendet:
 
 ```blocks
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Coin, function (sprite, otherSprite) {
@@ -726,7 +794,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Coin, function (sprite, otherSpr
 
 Jetzt benutzt du deine Funktion.
 
-Gehe zu **Funktionen** und ziehe den Block `||functions:Aufruf platziereMuenze||` in `||loops:beim Start||`.
+Gehe zu **Funktionen** und ziehe den Block `Aufruf platziereMuenze` in `beim Start`.
 
 Trage eine Position ein, zum Beispiel:
 
@@ -755,7 +823,7 @@ platziereMuenze(672, 96)
 
 Jetzt bauen wir einen Helfer-Block für Herzen.
 
-Gehe links auf **Fortgeschritten**. Öffne `||functions:Funktionen||` und klicke auf **erstelle eine Funktion**.
+Gehe links auf **Fortgeschritten**. Öffne `Funktionen` und klicke auf **erstelle eine Funktion**.
 
 Ersetze das Feld **macheEtwas** mit dem Namen:
 
@@ -777,12 +845,14 @@ function platziereHerz (x: number, y: number) {
 
 Jetzt füllen wir die Funktion `platziereHerz`.
 
-Gehe in die Kategorie **Sprites**. Ziehe den Block `||sprites:setze mySprite auf Sprite vom Typ Player||` in die Funktion `platziereHerz`.
+Gehe in die Kategorie **Sprites**. Ziehe den Block `setze mySprite auf Sprite vom Typ Player` in die Funktion `platziereHerz`.
 
 Achte wieder auf zwei Dropdown-Menüs im Block:
 
 1. Klicke links auf `mySprite` und wähle **Neue Variable...**. Nenne die neue Variable genau `heart`.
 2. Klicke rechts auf `Player`. Falls `Heart` noch nicht existiert, wähle **Hinzufügen** oder **Add a new kind** und schreibe genau `Heart`. Wähle danach `Heart` aus.
+
+Achte auf die Schreibweise: `heart` mit kleinem `h` ist die Variable für ein einzelnes Herz. `Heart` mit großem `H` ist die Sprite-Art. Im JavaScript-Code erscheint sie als `SpriteKind.Heart`.
 
 Wichtig: Wähle links bei `mySprite` **nicht** „Variable umbenennen...“. Für das Herz brauchst du eine neue Variable.
 
@@ -790,14 +860,11 @@ Jetzt sollte der Block ungefähr so aussehen:
 
 `setze heart auf Sprite vom Typ Heart`
 
-Klicke auf das kleine Bild im Block und male ein Herz. Du kannst dich am Vorschlag orientieren. Danach bekommt das Herz seine Position. Gehe in **Sprites** und ziehe den Block `||sprites:setze Position von heart auf x y||` unter den Herz-Block.
+Klicke auf das kleine Bild im Block und male ein Herz. Du kannst dich am Vorschlag orientieren. Danach bekommt das Herz seine Position. Gehe in **Sprites** und ziehe den Block `setze Position von heart auf x y` unter den Herz-Block.
 
-Stelle ein:
+Ziehe den Parameterblock `x` aus dem Funktionskopf in das erste Zahlenfeld und den Parameterblock `y` in das zweite Zahlenfeld. Tippe die Buchstaben nicht in die Zahlenfelder ein.
 
-- `x = x`
-- `y = y`
-
-Zum Schluss soll das Herz an seiner Stelle bleiben. Gehe in **Sprites** und füge den Block `||sprites:setze heart Geist durch Wände auf EIN||` hinzu.
+Zum Schluss soll das Herz an seiner Stelle bleiben. Gehe in **Sprites** und füge den Block `setze heart Geist durch Wände auf EIN` hinzu.
 
 ![Vorschlag Herz](https://raw.githubusercontent.com/Layla-Abdelwahab-th-ab-de/MakeCode-Arcade-Bilder/main/docs/static/jumpnrun/herz.png)
 
@@ -823,14 +890,18 @@ function platziereHerz (x: number, y: number) {
 
 Jetzt soll MakeCode merken, wenn deine Spielfigur ein Herz berührt.
 
-Gehe in die Kategorie **Sprites**. Ziehe einen Overlap-Block frei auf die Arbeitsfläche.
+Gehe in die Kategorie **Sprites**. Suche den Ereignisblock:
 
-Stelle oben ein:
+`wenn Sprite der Art Player überlappt otherSprite der Art Player`
+
+Ziehe diesen Block frei auf die Arbeitsfläche. Er gehört nicht in `beim Start`.
+
+Stelle in den beiden Dropdown-Menüs ein:
 
 - links: `Player`
 - rechts: `Heart`
 
-Der Block bedeutet: **Wenn die Spielfigur ein Herz berührt, dann passiert etwas.**
+Das ist kein normaler `wenn-dann`-Block aus der Kategorie **Logik**, sondern ein Overlap-Ereignis aus der Kategorie **Sprites**. Der Block wird automatisch ausgeführt, sobald sich die Spielfigur und ein Herz berühren.
 
 ```blocks
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite, otherSprite) {
@@ -845,10 +916,9 @@ Für den Anfang machen wir es einfach: Wenn die Spielfigur ein Herz berührt, be
 
 Füge in den Wenn-Block ein:
 
-- `||sprites:zerstöre otherSprite mit Herzen Effekt für 200 ms||`
-- `||info:ändere Leben um 1||`
-- Gehe in **Musik** und ziehe den Block
-||music:spiele Ton Einschalten|| oder ||music:spiele Ton powerUp|| darunter.
+- `zerstöre otherSprite mit Herzen Effekt für 200 ms`
+- `ändere Leben um 1`
+- Gehe in **Musik** und füge einen beliebigen kurzen Ton hinzu. Der Ton kann je nach MakeCode-Version anders heißen.
 
 So merkt das Spiel: Herz berührt → Herz verschwindet → Leben steigt → Ton wird abgespielt.
 
@@ -864,7 +934,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Heart, function (sprite, otherSp
 
 Jetzt benutzt du deine Funktion.
 
-Gehe zu **Funktionen** und ziehe den Block `||functions:Aufruf platziereHerz||` in `||loops:beim Start||`.
+Gehe zu **Funktionen** und ziehe den Block `Aufruf platziereHerz` in `beim Start`.
 
 Trage eine Position ein, zum Beispiel:
 
@@ -900,12 +970,14 @@ platziereGegner(656, 96)
 
 Am Ende des Levels braucht dein Spiel ein Ziel.
 
-Gehe in die Kategorie **Sprites**. Ziehe den Block `||sprites:setze mySprite auf Sprite vom Typ Player||` in `||loops:beim Start||`.
+Gehe in die Kategorie **Sprites**. Ziehe den Block `setze mySprite auf Sprite vom Typ Player` in `beim Start`.
 
 Achte wieder auf zwei Dropdown-Menüs:
 
 1. Klicke links auf `mySprite` und wähle **Neue Variable...**. Nenne die neue Variable genau `flag`.
 2. Klicke rechts auf `Player`. Falls `Flag` noch nicht existiert, wähle **Hinzufügen** oder **Add a new kind** und schreibe genau `Flag`. Wähle danach `Flag` aus.
+
+Achte auf die Schreibweise: `flag` mit kleinem `f` ist die Variable für die einzelne Flagge. `Flag` mit großem `F` ist die Sprite-Art. Im JavaScript-Code erscheint sie als `SpriteKind.Flag`.
 
 Klicke auf das kleine Bild und male eine Flagge. Du kannst dich am Vorschlag orientieren.
 Setze danach die Position auf:
@@ -946,10 +1018,10 @@ Jetzt soll MakeCode merken, wenn deine Spielfigur die Flagge berührt.
 
 Gehe in die Kategorie **Sprites**. Ziehe einen **Wenn-Block** frei auf die Arbeitsfläche.
 
-Dieser Block kommt **nicht** in `||loops:beim Start||`. Er ist ein eigener Ereignis-Block.
+Dieser Block kommt **nicht** in `beim Start`. Er ist ein eigener Ereignis-Block.
 
 Hier bist du gefragt! Kriegst du diesen Block allein zusammengebaut? Tipp: Orientiere dich an den **Wenn-Blöcken** für Herzen, Münzen oder Gegnern
-Wenn die Spielfigur die Flagge berührt, gibt es Konfetti, ein Ton wird abgespielt und das Spiel ist gewonnen. Die Lösung findest du ansonsten in der Glühbirne.
+Wenn die Spielfigur die Flagge berührt, gibt es Konfetti, ein kurzer Ton wird abgespielt und das Spiel ist gewonnen. Du kannst einen beliebigen kurzen Ton aus der Kategorie **Musik** verwenden. Die Lösung findest du ansonsten in der Glühbirne.
 
 ```blocks
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Flag, function (sprite, otherSprite) {
@@ -961,9 +1033,9 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Flag, function (sprite, otherSpr
 
 ## Schritt 46: Spielupdate vorbereiten
 
-Gehe in die Kategorie **Spiel** und ziehe den Block `||game:wenn Spielupdate||` frei auf die Arbeitsfläche.
+Gehe in die Kategorie **Spiel** und ziehe den Block `wenn Spielupdate` frei auf die Arbeitsfläche.
 
-Dieser Block kommt **nicht** in `||loops:beim Start||`. Er ist ein eigener Block auf der Arbeitsfläche.
+Dieser Block kommt **nicht** in `beim Start`. Er ist ein eigener Block auf der Arbeitsfläche.
 
 Dieser Block wird immer wieder ausgeführt, solange das Spiel läuft. Deshalb eignet er sich für Dinge, die ständig geprüft werden müssen.
 
@@ -974,9 +1046,9 @@ game.onUpdate(function () {
 
 ## Schritt 47: Herunterfallen bedeutet Game Over
 
-Jetzt füllen wir den Block `||game:wenn Spielupdate||`.
+Jetzt füllen wir den Block `wenn Spielupdate`.
 
-Gehe in die Kategorie Logik und füge eine `||logic:wenn dann||`-Bedingung in den Spielupdate-Block ein.
+Gehe in die Kategorie Logik und füge eine `wenn dann`-Bedingung in den Spielupdate-Block ein.
 
 **BITTE SCHAUE DIR HIERZU DAS BEIGEFÜGTE VIDEO IN DER GLÜHBIRNE AN**
 Die Bedingung lautet:
@@ -987,7 +1059,7 @@ Das bedeutet: Wenn die y-Position deiner Spielfigur größer als 230 ist, ist si
 
 In den **dann-Teil** kommt aus der Kategorie **Spiel** der Block:
 
-`||game:Spielende VERLIEREN||`
+`Spielende VERLIEREN`
 
 Dann endet das Spiel, sobald deine Figur herunterfällt.
 
@@ -1029,7 +1101,7 @@ Du hast ein eigenes Jump'n'Run-Spiel gebaut: mit Hintergrund, Spielfigur, Tilema
 
 Jetzt kannst du dein Level verschönern, mehr Plattformen bauen oder eigene Figuren und Gegenstände malen.
 
-In den nachfolgenden Schritten kommt der **Profi-Teil** in dem du Bedingungen für das seitliche und vertikale Berühren eines Gegners definierst ((seitlich = ein Leben weniger und von oben drauf springen = Gegner besiegt) und eine **Laufanimation** mit in das Spiel einbaust **DIESE SCHRITTE SIND ALLE OPTIONAL**
+In den nachfolgenden Schritten kommt der **freiwillige Profi-Teil**. Dort unterscheidest du, ob die Spielfigur einen Gegner seitlich berührt oder von oben auf ihn springt. Außerdem kannst du eine Laufanimation einbauen. **Alle folgenden Schritte sind optional.**
 
 
 
@@ -1043,7 +1115,7 @@ Mit diesem Profi-Teil kann deine Spielfigur Gegner auch durch Draufspringen besi
 
 `Player` überlappt `Enemy`
 
-Entferne die einfachen Blöcke darin und baue stattdessen eine `||logic:wenn dann ansonsten||`-Bedingung ein.
+Entferne die einfachen Blöcke darin und baue stattdessen eine `wenn dann ansonsten`-Bedingung ein.
 
 Die Bedingung lautet:
 
@@ -1079,7 +1151,7 @@ Erstelle drei Variablen:
 - `frame2`
 - `frame3`
 
-Die drei Blöcke zum Speichern der Bilder gehören in den vorhandenen `||loops:beim Start||`-Block. Dort werden die Bilder beim Start des Spiels vorbereitet.
+Die drei Blöcke zum Speichern der Bilder gehören in den vorhandenen `beim Start`-Block. Dort werden die Bilder beim Start des Spiels vorbereitet.
 
 `frame1` und `frame2` sind Laufbilder. `frame3` ist das Stand- und Sprungbild.
 
@@ -1158,7 +1230,7 @@ Dann sieht die Figur beim Springen sauber aus.
 
 Füge im vorhandenen A-Block unter `vy = -220` den Block hinzu:
 
-`||sprites:setze mySprite Bild auf frame3||`
+`setze mySprite Bild auf frame3`
 
 ```blocks
 let mySprite: Sprite = null
@@ -1173,7 +1245,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 
 ## Optional: Nur für Profis – Laufanimation ins Spielupdate einbauen
 
-Wenn du die Laufanimation einbaust, ergänzt du den vorhandenen `||game:wenn Spielupdate||`-Block aus Schritt 47.
+Wenn du die Laufanimation einbaust, ergänzt du den vorhandenen `wenn Spielupdate`-Block aus Schritt 47.
 
 Wenn `vx > 10` ist, läuft die Figur nach rechts. Wenn `vx < -10` ist, läuft sie nach links. Dabei wechseln wir zwischen `frame1` und `frame2`. Wenn sie steht und auf dem Boden ist, bekommt sie `frame3`.
 
