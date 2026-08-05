@@ -1,6 +1,6 @@
 {
     "name": "makecode-arcade-bilder",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "description": "Jump'n'Run Tutorial für MakeCode Arcade",
     "dependencies": {
         "device": "*"
